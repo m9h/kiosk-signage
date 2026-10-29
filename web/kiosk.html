@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Frontier Tower SF</title>
+<style>
+  :root {
+    --bg: #0c0e14;
+    --fg: #eef0f5;
+    --muted: #8b93a3;
+    --ft-grad: linear-gradient(135deg, #7d5cff 0%, #5a3fe0 55%, #4832c4 100%);
+    --font: Inter, -apple-system, "Segoe UI", Roboto, system-ui, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; margin: 0; }
+  body {
+    background: var(--bg); color: var(--fg); font-family: var(--font);
+    display: flex; flex-direction: column; overflow: hidden;
+  }
+  header {
+    flex: 0 0 auto;
+    background: var(--ft-grad);
+    color: #fff;
+    padding: 2.6vw 3vw 2.4vw;
+    display: flex; align-items: flex-start; justify-content: space-between; gap: 3vw;
+  }
+  .head-main { min-width: 0; }
+  .brand { display: flex; align-items: center; gap: 1.4vw; }
+  .logo {
+    width: 5.9vw; height: 5.9vw; max-width: 72px; max-height: 72px;
+    border-radius: 1.6vw; background: #fff; color: #5a3fe0;
+    display: grid; place-items: center;
+    font-weight: 800; font-size: 3.4vw; letter-spacing: -.04em;
+  }
+  .word { font-weight: 700; font-size: 2.8vw; letter-spacing: -.01em; opacity: .96; }
+  h1 { font-size: 6vw; font-weight: 800; letter-spacing: -.02em; margin: 1.8vw 0 .6vw; line-height: 1.05; }
+  .meta { display: flex; align-items: center; gap: 1.6vw; flex-wrap: wrap; font-size: 2.5vw; opacity: .9; }
+  .dot { width: .7vw; height: .7vw; border-radius: 50%; background: currentColor; opacity: .7; }
+  #clock { font-variant-numeric: tabular-nums; }
+  .qr {
+    flex: 0 0 auto; display: flex; flex-direction: column; align-items: center; gap: .8vw;
+    background: #fff; border-radius: 1.8vw; padding: 1.2vw 1.2vw 1vw;
+    box-shadow: 0 .4vw 1.6vw rgba(0,0,0,.22);
+  }
+  .qr img { width: 15vw; max-width: 168px; height: auto; display: block; }
+  .qr span { color: #3a2b6b; font-size: 1.9vw; font-weight: 700; letter-spacing: .02em; }
+  .cal { flex: 1 1 auto; border: 0; width: 100%; background: var(--bg); }
+</style>
+</head>
+<body>
+  <header>
+    <div class="head-main">
+      <div class="brand">
+        <div class="logo">ft</div>
+        <div class="word">frontiertower</div>
+      </div>
+      <h1>Frontier Tower SF</h1>
+      <div class="meta">
+        <span>San Francisco</span><span class="dot"></span>
+        <span id="clock">&nbsp;</span><span class="dot"></span>
+        <span>frontiertower.io</span>
+      </div>
+    </div>
+    <div class="qr">
+      <img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27290%27%20height%3D%27290%27%20class%3D%27segno%27%3E%3Cg%20transform%3D%27scale%2810%29%27%3E%3Cpath%20fill%3D%27%23fff%27%20d%3D%27M0%200h29v29h-29z%27%2F%3E%3Cpath%20class%3D%27qrline%27%20stroke%3D%27%231a1030%27%20d%3D%27M0%200.5h7m2%200h3m2%200h4m4%200h7m-29%201h1m5%200h1m2%200h1m1%200h1m1%200h1m2%200h1m2%200h1m2%200h1m5%200h1m-29%201h1m1%200h3m1%200h1m1%200h1m4%200h1m3%200h4m1%200h1m1%200h3m1%200h1m-29%201h1m1%200h3m1%200h1m4%200h2m1%200h1m1%200h1m1%200h2m2%200h1m1%200h3m1%200h1m-29%201h1m1%200h3m1%200h1m1%200h3m1%200h2m2%200h1m1%200h1m3%200h1m1%200h3m1%200h1m-29%201h1m5%200h1m1%200h1m1%200h2m1%200h5m1%200h1m2%200h1m5%200h1m-29%201h7m1%200h1m1%200h1m1%200h1m1%200h1m1%200h1m1%200h1m1%200h1m1%200h7m-18%201h1m2%200h1m1%200h3m1%200h1m-20%201h1m2%200h1m1%200h1m1%200h1m2%200h2m1%200h2m1%200h1m1%200h3m1%200h2m1%200h1m-25%201h1m1%200h1m2%200h4m1%200h1m2%200h2m1%200h1m3%200h3m1%200h3m-29%201h1m1%200h1m1%200h3m2%200h2m2%200h2m2%200h1m3%200h1m1%200h1m2%200h1m1%200h1m-29%201h3m1%200h2m2%200h1m2%200h3m1%200h1m1%200h2m1%200h2m3%200h1m1%200h2m-26%201h1m1%200h4m1%200h1m1%200h1m1%200h1m1%200h4m3%200h1m4%200h1m-29%201h3m6%200h2m3%200h3m1%200h1m3%200h1m1%200h1m1%200h1m1%200h1m-24%201h4m1%200h1m1%200h1m1%200h1m1%200h3m2%200h1m2%200h1m3%200h1m-26%201h3m1%200h1m2%200h4m2%200h3m1%200h1m1%200h2m1%200h1m-26%201h3m2%200h2m1%200h2m1%200h1m2%200h1m2%200h1m3%200h1m1%200h1m3%200h2m-29%201h2m1%200h3m1%200h2m1%200h2m2%200h1m1%200h2m4%200h5m1%200h1m-23%201h2m1%200h1m1%200h2m3%200h1m1%200h1m4%200h2m1%200h1m1%200h1m-27%201h1m1%200h2m1%200h1m1%200h2m1%200h3m2%200h1m1%200h1m4%200h2m1%200h1m-28%201h2m1%200h2m1%200h3m1%200h1m2%200h1m1%200h1m1%200h1m1%200h7m1%200h2m-21%201h1m1%200h1m2%200h4m1%200h3m3%200h1m1%200h1m1%200h1m-29%201h7m2%200h1m1%200h5m3%200h2m1%200h1m1%200h1m2%200h2m-29%201h1m5%200h1m3%200h4m3%200h1m1%200h2m3%200h2m2%200h1m-29%201h1m1%200h3m1%200h1m1%200h4m1%200h3m2%200h7m2%200h2m-29%201h1m1%200h3m1%200h1m2%200h3m6%200h1m4%200h1m3%200h1m-28%201h1m1%200h3m1%200h1m2%200h1m3%200h1m1%200h2m2%200h3m3%200h4m-29%201h1m5%200h1m1%200h3m1%200h2m1%200h6m1%200h2m1%200h1m1%200h2m-29%201h7m2%200h4m4%200h1m2%200h2m2%200h2m1%200h1%27%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E" alt="QR code to the Frontier Tower events calendar">
+      <span>Scan for events</span>
+    </div>
+  </header>
+  <iframe class="cal" title="Frontier Tower events"
+    src="https://luma.com/embed/calendar/cal-Sl7q1nHTRXQzjP2/events?lt=dark"
+    referrerpolicy="no-referrer-when-downgrade"></iframe>
+  <script>
+    (function () {
+      var el = document.getElementById('clock');
+      function tick() {
+        try {
+          el.textContent = new Date().toLocaleTimeString('en-US',
+            { hour: 'numeric', minute: '2-digit', timeZone: 'America/Los_Angeles' }) + ' PDT';
+        } catch (e) { el.textContent = ''; }
+      }
+      tick(); setInterval(tick, 15000);
+    })();
+  </script>
+</body>
+</html>

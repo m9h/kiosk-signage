@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Kiosk</string>
+    <!-- The TV-friendly event list of luma.com/frontiertower (same calendar). -->
+    <string name="default_url">https://luma.com/embed/calendar/cal-Sl7q1nHTRXQzjP2/events?lt=dark</string>
+</resources>

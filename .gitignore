@@ -1,0 +1,11 @@
+__pycache__/
+*.idsig
+out/
+kiosk.apk
+
+# Site- and device-specific — kept local, never published
+INVENTORY.md
+inventory.csv
+inventory.local.*
+photos/
+assets/

@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Frontier Tower Kiosk</title>
+<style>
+  :root{
+    --bg:#0c0e14;--fg:#eef0f5;--muted:#8b93a3;
+    --gold:#e3b341;--gold-2:#f0c75e;--crimson:#e2405a;--teal:#3db39e;--cream:#f5ead1;
+    --ft-grad:linear-gradient(135deg,#7d5cff 0%,#5a3fe0 55%,#4832c4 100%);
+    --font:Inter,-apple-system,"Segoe UI",Roboto,system-ui,sans-serif;
+    --mono:ui-monospace,"SFMono-Regular","Roboto Mono",Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box;}
+  html,body{height:100%;margin:0;}
+  body{background:var(--bg);color:var(--fg);font-family:var(--font);overflow:hidden;}
+  .screen{position:fixed;inset:0;display:flex;flex-direction:column;opacity:0;visibility:hidden;transition:opacity .6s ease;}
+  .screen.on{opacity:1;visibility:visible;}
+
+  /* shared FT header band (calendar) */
+  .ft-head{flex:0 0 auto;background:var(--ft-grad);color:#fff;padding:2.6vw 3vw 2.4vw;display:flex;align-items:flex-start;justify-content:space-between;gap:3vw;}
+  .brand{display:flex;align-items:center;gap:1.4vw;}
+  .logo{width:5.9vw;height:5.9vw;max-width:72px;max-height:72px;border-radius:1.6vw;background:#fff;color:#5a3fe0;display:grid;place-items:center;font-weight:800;font-size:3.4vw;letter-spacing:-.04em;}
+  .word{font-weight:700;font-size:2.8vw;letter-spacing:-.01em;opacity:.96;}
+  .ft-head h1{font-size:6vw;font-weight:800;letter-spacing:-.02em;margin:1.8vw 0 .6vw;line-height:1.05;}
+  .meta{display:flex;align-items:center;gap:1.6vw;flex-wrap:wrap;font-size:2.5vw;opacity:.9;}
+  .dot{width:.7vw;height:.7vw;border-radius:50%;background:currentColor;opacity:.7;}
+  #clock{font-variant-numeric:tabular-nums;}
+  .qr-card{flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:.8vw;background:#fff;border-radius:1.8vw;padding:1.2vw 1.2vw 1vw;box-shadow:0 .4vw 1.6vw rgba(0,0,0,.22);}
+  .qr-card svg{width:15vw;max-width:168px;height:auto;display:block;}
+  .qr-card span{color:#3a2b6b;font-size:1.9vw;font-weight:700;letter-spacing:.02em;}
+  .cal{flex:1 1 auto;border:0;width:100%;background:var(--bg);}
+
+  /* brand slide */
+  #brand{align-items:center;justify-content:center;text-align:center;padding:8vw 7vw;background:radial-gradient(120vw 70vw at 50% -10%,rgba(125,92,255,.18),transparent 60%),var(--bg);}
+  #brand .b-logo{width:16vw;height:16vw;border-radius:3.4vw;background:var(--ft-grad);display:grid;place-items:center;font-weight:800;font-size:9vw;color:#fff;letter-spacing:-.04em;box-shadow:0 2vw 6vw rgba(90,63,224,.4);}
+  #brand h2{font-size:9vw;font-weight:800;letter-spacing:-.02em;margin:6vw 0 2vw;line-height:1.02;}
+  #brand .tag{font-size:3.4vw;color:var(--muted);line-height:1.4;max-width:80vw;}
+  #brand .verticals{display:flex;flex-wrap:wrap;gap:1.6vw;justify-content:center;margin-top:5vw;}
+  #brand .chip{font-family:var(--mono);font-size:2.6vw;border:1px solid rgba(125,92,255,.5);color:#b9a9ff;border-radius:999px;padding:1vw 2.6vw;}
+  #brand .url{margin-top:7vw;font-family:var(--mono);font-size:3vw;color:var(--gold-2);letter-spacing:.04em;}
+
+  /* featured event */
+  [id^="evt"]{padding:6vw 6vw 5vw;background:radial-gradient(90vw 60vw at 50% 8%,rgba(227,179,65,.14),transparent 62%),radial-gradient(70vw 50vw at 50% 100%,rgba(226,64,90,.12),transparent 60%),var(--bg);}
+  .fx-eyebrow{font-family:var(--mono);font-size:2.6vw;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:1.6vw;}
+  .fx-eyebrow .live{width:1.6vw;height:1.6vw;border-radius:50%;background:var(--crimson);box-shadow:0 0 0 0 rgba(226,64,90,.6);animation:pulse 2s infinite;}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(226,64,90,.55)}70%{box-shadow:0 0 0 3vw rgba(226,64,90,0)}100%{box-shadow:0 0 0 0 rgba(226,64,90,0)}}
+  .fx-cover{margin:4vw auto 0;width:62vw;max-width:520px;aspect-ratio:1/1;border-radius:3vw;background:#000 center/cover no-repeat;border:.4vw solid rgba(227,179,65,.45);box-shadow:0 0 0 .2vw rgba(0,0,0,.6),0 3vw 9vw rgba(0,0,0,.6),0 0 14vw rgba(227,179,65,.12);}
+  .fx-title{margin:5vw 0 0;font-size:8.6vw;font-weight:800;line-height:.98;letter-spacing:-.02em;}
+  .fx-title .sub{display:block;font-size:5.4vw;color:var(--cream);font-weight:700;margin-top:1.2vw;}
+  .fx-badge{display:inline-block;margin-top:3vw;font-family:var(--mono);font-size:2.6vw;font-weight:700;letter-spacing:.1em;color:var(--bg);background:var(--gold);border-radius:999px;padding:1vw 3vw;}
+  .fx-when{display:flex;align-items:baseline;gap:3vw;margin-top:5vw;flex-wrap:wrap;}
+  .fx-when .d{font-size:7vw;font-weight:800;color:var(--gold-2);letter-spacing:-.01em;line-height:1;}
+  .fx-when .t{font-size:5.4vw;font-weight:700;color:var(--fg);}
+  .fx-where{margin-top:2.4vw;font-size:3.4vw;color:var(--muted);}
+  .fx-where b{color:var(--teal);font-weight:700;}
+  .fx-tag{margin-top:4vw;font-size:3.2vw;font-style:italic;color:#cdbf9a;line-height:1.45;max-width:82vw;}
+  .fx-foot{margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:4vw;padding-top:5vw;}
+  .fx-host{font-size:3vw;color:var(--muted);line-height:1.4;}
+  .fx-host b{color:var(--fg);font-weight:700;}
+  .fx-qr{display:flex;flex-direction:column;align-items:center;gap:1vw;background:#fff;border-radius:2.4vw;padding:2.2vw 2.2vw 1.6vw;box-shadow:0 1vw 4vw rgba(0,0,0,.5);}
+  .fx-qr svg{width:24vw;max-width:220px;height:auto;display:block;}
+  .fx-qr span{color:#0c0e14;font-family:var(--mono);font-size:2.3vw;font-weight:700;letter-spacing:.08em;}
+
+  /* home hero (recreated FT homepage) */
+  #home{background:#f6f7fb;color:#15171e;padding:7vw 7vw;align-items:center;text-align:center;overflow:hidden;}
+  #home::before{content:"";position:absolute;inset:4vw;border:1px dashed rgba(90,63,224,.28);pointer-events:none;}
+  .h-hud{position:absolute;font-family:var(--mono);font-size:2.4vw;letter-spacing:.18em;color:rgba(21,23,30,.55);}
+  .h-tl{top:6vw;left:7vw;} .h-tr{top:6vw;right:7vw;} .h-bl{bottom:6vw;left:7vw;color:var(--crimson);} .h-br{bottom:6vw;right:7vw;}
+  .hx{position:absolute;top:12vw;bottom:12vw;width:7vw;font-family:var(--mono);font-size:2.2vw;line-height:2.1;color:rgba(90,63,224,.14);white-space:pre-wrap;word-break:break-all;overflow:hidden;pointer-events:none;}
+  .hx-l{left:3vw;} .hx-r{right:3vw;text-align:right;}
+  .h-pill{margin-top:10vw;font-family:var(--mono);font-size:3vw;letter-spacing:.14em;color:#5a3fe0;background:rgba(125,92,255,.1);border:1px solid rgba(125,92,255,.3);border-radius:999px;padding:1.4vw 4vw;}
+  .h-head{font-size:11vw;font-weight:800;letter-spacing:-.03em;line-height:1;margin:5vw 0 0;}
+  .h-head .hw-word{color:#5a3fe0;font-style:italic;}
+  .caret{display:inline-block;width:.5vw;height:9vw;background:#5a3fe0;margin-left:1vw;vertical-align:-1.4vw;animation:blink 1s step-end infinite;}
+  @keyframes blink{50%{opacity:0}}
+  .h-tower{width:48vw;max-width:360px;height:40vh;margin:4vw auto 0;}
+  .h-sub{font-size:3.4vw;color:#4a505c;line-height:1.5;max-width:82vw;margin:3vw auto 0;}
+</style>
+</head>
+<body>
+  <section class="screen" id="home">
+    <div class="hx hx-l"></div><div class="hx hx-r"></div>
+    <div class="h-hud h-tl">SYS / 01</div><div class="h-hud h-tr">NODE / 16</div>
+    <div class="h-pill">● 00.1 // FRONTIER.TOWER</div>
+    <h1 class="h-head">Where the frontier is<br><span class="hw-word">built</span><span class="caret"></span></h1>
+    <div class="h-tower"><svg viewBox="0 0 200 300" width="100%" height="100%" preserveAspectRatio="xMidYMid meet"><polygon points="38.0,239 100,264 100,279 38.0,254" fill="rgba(72,50,196,.30)"/><polygon points="162.0,239 100,264 100,279 162.0,254" fill="rgba(125,92,255,.16)"/><polygon points="100,214 162.0,239 100,264 38.0,239" fill="rgba(125,92,255,.20)" stroke="rgba(125,92,255,.55)" stroke-width="1"/><polygon points="35.8,224 100,249 100,264 35.8,239" fill="rgba(72,50,196,.30)"/><polygon points="164.2,224 100,249 100,264 164.2,239" fill="rgba(125,92,255,.16)"/><polygon points="100,199 164.2,224 100,249 35.8,224" fill="rgba(125,92,255,.20)" stroke="rgba(125,92,255,.55)" stroke-width="1"/><polygon points="33.599999999999994,209 100,234 100,249 33.599999999999994,224" fill="rgba(72,50,196,.30)"/><polygon points="166.4,209 100,234 100,249 166.4,224" fill="rgba(125,92,255,.16)"/><polygon points="100,184 166.4,209 100,234 33.599999999999994,209" fill="rgba(125,92,255,.20)" stroke="rgba(125,92,255,.55)" stroke-width="1"/><polygon points="31.400000000000006,194 100,219 100,234 31.400000000000006,209" fill="rgba(72,50,196,.30)"/><polygon points="168.6,194 100,219 100,234 168.6,209" fill="rgba(125,92,255,.16)"/><polygon points="100,169 168.6,194 100,219 31.400000000000006,194" fill="rgba(125,92,255,.20)" stroke="rgba(125,92,255,.55)" stroke-width="1"/><polygon points="29.200000000000003,179 100,204 100,219 29.200000000000003,194" fill="rgba(72,50,196,.30)"/><polygon points="170.8,179 100,204 100,219 170.8,194" fill="rgba(125,92,255,.16)"/><polygon points="100,154 170.8,179 100,204 29.200000000000003,179" fill="rgba(125,92,255,.20)" stroke="rgba(125,92,255,.55)" stroke-width="1"/><polygon points="27.0,164 100,189 100,204 27.0,179" fill="rgba(72,50,196,.30)"/><polygon points="173.0,164 100,189 100,204 173.0,179" fill="rgba(125,92,255,.16)"/><polygon points="100,139 173.0,164 100,189 27.0,164" fill="rgba(125,92,255,.20)" stroke="rgba(125,92,255,.55)" stroke-width="1"/><polygon points="24.799999999999997,149 100,174 100,189 24.799999999999997,164" fill="rgba(72,50,196,.30)"/><polygon points="175.2,149 100,174 100,189 175.2,164" fill="rgba(125,92,255,.16)"/><polygon points="100,124 175.2,149 100,174 24.799999999999997,149" fill="rgba(125,92,255,.20)" stroke="rgba(125,92,255,.55)" stroke-width="1"/><polygon points="22.599999999999994,134 100,159 100,174 22.599999999999994,149" fill="rgba(72,50,196,.30)"/><polygon points="177.4,134 100,159 100,174 177.4,149" fill="rgba(125,92,255,.16)"/><polygon points="100,109 177.4,134 100,159 22.599999999999994,134" fill="rgba(125,92,255,.20)" stroke="rgba(125,92,255,.55)" stroke-width="1"/><polygon points="20.400000000000006,119 100,144 100,159 20.400000000000006,134" fill="rgba(72,50,196,.30)"/><polygon points="179.6,119 100,144 100,159 179.6,134" fill="rgba(125,92,255,.16)"/><polygon points="100,94 179.6,119 100,144 20.400000000000006,119" fill="rgba(125,92,255,.20)" stroke="rgba(125,92,255,.55)" stroke-width="1"/><polygon points="18.200000000000003,104 100,129 100,144 18.200000000000003,119" fill="rgba(72,50,196,.30)"/><polygon points="181.8,104 100,129 100,144 181.8,119" fill="rgba(125,92,255,.16)"/><polygon points="100,79 181.8,104 100,129 18.200000000000003,104" fill="rgba(125,92,255,.20)" stroke="rgba(125,92,255,.55)" stroke-width="1"/><polygon points="16.0,89 100,114 100,129 16.0,104" fill="rgba(72,50,196,.30)"/><polygon points="184.0,89 100,114 100,129 184.0,104" fill="rgba(125,92,255,.16)"/><polygon points="100,64 184.0,89 100,114 16.0,89" fill="rgba(125,92,255,.20)" stroke="rgba(125,92,255,.55)" stroke-width="1"/><polygon points="13.799999999999997,74 100,99 100,114 13.799999999999997,89" fill="rgba(72,50,196,.30)"/><polygon points="186.2,74 100,99 100,114 186.2,89" fill="rgba(125,92,255,.16)"/><polygon points="100,49 186.2,74 100,99 13.799999999999997,74" fill="rgba(125,92,255,.20)" stroke="rgba(125,92,255,.55)" stroke-width="1"/><polygon points="11.599999999999994,59 100,84 100,99 11.599999999999994,74" fill="rgba(72,50,196,.30)"/><polygon points="188.4,59 100,84 100,99 188.4,74" fill="rgba(125,92,255,.16)"/><polygon points="100,34 188.4,59 100,84 11.599999999999994,59" fill="rgba(125,92,255,.20)" stroke="rgba(125,92,255,.55)" stroke-width="1"/><polygon points="9.400000000000006,44 100,69 100,84 9.400000000000006,59" fill="rgba(72,50,196,.30)"/><polygon points="190.6,44 100,69 100,84 190.6,59" fill="rgba(125,92,255,.16)"/><polygon points="100,19 190.6,44 100,69 9.400000000000006,44" fill="rgba(125,92,255,.20)" stroke="rgba(125,92,255,.55)" stroke-width="1"/></svg></div>
+    <p class="h-sub">16 floors. Countless founders. One constitution, written from the inside.<br>AI · crypto · biotech · robotics · neurotech · longevity.</p>
+    <div class="h-hud h-bl">● LIVE</div><div class="h-hud h-br">37.78°N</div>
+  </section>
+  <section class="screen" id="evt1">
+    <div class="fx-eyebrow"><span class="live"></span>Featured event · Frontier Tower SF</div>
+    <div class="fx-cover" style="background-image:url('https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=cover,quality=85,width=760,height=760/api-uploads/oq/275f3400-88f4-4af1-bdf0-297a34e46d69.jpg')"></div>
+    <h1 class="fx-title">Cypherpunk Society<span class="sub">Inaugural Meeting</span></h1>
+    <div><span class="fx-badge">MEMBERS +3</span></div>
+    <div class="fx-when"><span class="d">THU · NOV 5</span><span class="t">6:00 PM</span></div>
+    <div class="fx-where"><b>Spaceship</b> · 995 Market St, San Francisco</div>
+    <div class="fx-tag">“A practitioner community for open-source digital self-defense, privacy tools, investigative literacy, and freedom bandwidth.”</div>
+    <div class="fx-foot">
+      <div class="fx-host">Hosted by <b>Morgan Hough</b><br>&amp; Frontier Tower</div>
+      <div class="fx-qr"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 41 41" shape-rendering="crispEdges"><rect width="41" height="41" fill="#fff"/><path class="qrline" stroke="#0c0e14" d="M2 2.5h7m1 0h3m1 0h1m1 0h2m1 0h2m2 0h2m1 0h3m1 0h1m1 0h7m-37 1h1m5 0h1m5 0h3m1 0h1m1 0h1m1 0h2m5 0h2m1 0h1m5 0h1m-37 1h1m1 0h3m1 0h1m2 0h2m2 0h1m1 0h1m3 0h1m1 0h2m1 0h1m1 0h3m1 0h1m1 0h3m1 0h1m-37 1h1m1 0h3m1 0h1m4 0h1m1 0h1m1 0h1m9 0h3m2 0h1m1 0h3m1 0h1m-37 1h1m1 0h3m1 0h1m1 0h1m2 0h1m1 0h1m1 0h1m1 0h2m4 0h1m6 0h1m1 0h3m1 0h1m-37 1h1m5 0h1m1 0h2m1 0h3m4 0h2m7 0h2m1 0h1m5 0h1m-37 1h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7m-23 1h1m1 0h1m2 0h5m4 0h1m-28 1h7m4 0h1m1 0h1m2 0h1m6 0h1m6 0h2m3 0h1m-35 1h2m1 0h1m2 0h2m3 0h4m1 0h4m1 0h1m1 0h1m1 0h1m3 0h1m2 0h1m-35 1h3m1 0h1m1 0h1m1 0h2m2 0h1m2 0h1m1 0h1m6 0h5m1 0h1m4 0h2m-37 1h1m2 0h1m1 0h1m1 0h3m2 0h2m1 0h1m1 0h5m1 0h1m2 0h1m1 0h1m1 0h2m3 0h1m-32 1h6m2 0h1m1 0h4m4 0h6m1 0h7m-34 1h2m1 0h1m1 0h1m1 0h1m1 0h1m2 0h3m2 0h1m3 0h1m4 0h2m1 0h1m1 0h2m-34 1h3m2 0h1m1 0h1m1 0h3m2 0h1m1 0h1m1 0h1m2 0h1m2 0h1m1 0h2m2 0h1m1 0h1m1 0h2m-37 1h5m4 0h2m1 0h2m2 0h3m8 0h5m3 0h1m-36 1h1m1 0h1m2 0h2m2 0h1m2 0h3m2 0h10m2 0h4m1 0h2m-36 1h1m4 0h1m1 0h2m4 0h1m1 0h1m2 0h3m4 0h2m1 0h2m1 0h1m2 0h1m-35 1h2m2 0h1m1 0h1m1 0h4m3 0h4m1 0h1m1 0h6m1 0h4m2 0h2m-34 1h1m3 0h2m1 0h1m2 0h3m2 0h2m1 0h1m1 0h1m3 0h1m2 0h1m2 0h1m2 0h1m-36 1h2m2 0h2m1 0h1m2 0h1m4 0h4m2 0h5m2 0h8m-37 1h1m4 0h1m10 0h3m1 0h1m2 0h1m1 0h1m3 0h1m1 0h1m1 0h1m-34 1h1m3 0h1m1 0h3m2 0h1m2 0h4m2 0h3m2 0h3m6 0h3m-35 1h2m3 0h1m1 0h1m2 0h1m1 0h4m1 0h1m1 0h2m2 0h1m3 0h3m3 0h2m-36 1h3m2 0h1m1 0h2m1 0h1m1 0h1m2 0h2m4 0h1m1 0h1m1 0h1m2 0h7m-36 1h1m1 0h4m2 0h1m2 0h1m4 0h3m1 0h4m1 0h1m2 0h1m2 0h1m-32 1h1m1 0h1m1 0h1m1 0h1m2 0h1m2 0h1m1 0h3m2 0h3m4 0h2m2 0h2m3 0h2m-37 1h1m1 0h4m3 0h2m3 0h4m3 0h2m5 0h2m1 0h1m3 0h1m-36 1h1m5 0h4m1 0h1m1 0h1m2 0h1m3 0h1m1 0h1m1 0h3m1 0h7m1 0h1m-29 1h3m1 0h1m6 0h3m1 0h1m2 0h3m3 0h1m-33 1h7m1 0h1m2 0h5m1 0h2m2 0h1m6 0h1m1 0h1m1 0h2m1 0h2m-37 1h1m5 0h1m1 0h2m3 0h1m2 0h1m1 0h1m1 0h3m4 0h2m3 0h1m2 0h1m-36 1h1m1 0h3m1 0h1m1 0h1m1 0h2m2 0h1m2 0h2m2 0h1m3 0h8m1 0h1m1 0h1m-37 1h1m1 0h3m1 0h1m1 0h2m1 0h3m4 0h1m1 0h1m1 0h1m1 0h1m1 0h1m3 0h1m1 0h1m1 0h2m-36 1h1m1 0h3m1 0h1m1 0h3m4 0h1m2 0h2m1 0h2m4 0h3m1 0h1m2 0h1m1 0h1m-37 1h1m5 0h1m1 0h1m1 0h4m1 0h7m2 0h1m1 0h3m1 0h2m4 0h1m-37 1h7m2 0h1m1 0h1m1 0h1m1 0h3m1 0h1m5 0h2m3 0h1m1 0h5"/></svg><span>SCAN TO RSVP</span></div>
+    </div>
+  </section>
+  <section class="screen" id="evt2">
+    <div class="fx-eyebrow"><span class="live"></span>Featured event · Frontier Tower SF</div>
+    <div class="fx-cover" style="background-image:url('https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=cover,quality=85,width=760,height=760/api-uploads/hj/377fe3a5-5cdb-47be-acab-c044ed5614ea.jpg')"></div>
+    <h1 class="fx-title">SF CogSci #34<span class="sub">Tapes Together Strong</span></h1>
+    <div><span class="fx-badge">MEMBERS ONLY</span></div>
+    <div class="fx-when"><span class="d">TUE · NOV 3</span><span class="t">7:00 PM</span></div>
+    <div class="fx-where"><b>9th Floor Annex</b> · 995 Market St, San Francisco</div>
+    <div class="fx-tag">“Reading &amp; discussion: the co-evolution of computation and cooperation. A monthly cognitive-science salon.”</div>
+    <div class="fx-foot">
+      <div class="fx-host">Hosted by <b>Tom Hume</b><br>&amp; Frontier Tower</div>
+      <div class="fx-qr"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 45 45" shape-rendering="crispEdges"><rect width="45" height="45" fill="#fff"/><path class="qrline" stroke="#0c0e14" d="M2 2.5h7m1 0h3m1 0h1m1 0h3m2 0h1m2 0h4m2 0h1m1 0h3m1 0h7m-41 1h1m5 0h1m3 0h1m5 0h1m1 0h1m2 0h2m2 0h4m1 0h1m3 0h1m5 0h1m-41 1h1m1 0h3m1 0h1m4 0h1m2 0h1m2 0h1m1 0h1m1 0h1m1 0h3m1 0h2m2 0h2m1 0h1m1 0h3m1 0h1m-41 1h1m1 0h3m1 0h1m2 0h1m3 0h1m1 0h1m2 0h7m1 0h2m2 0h3m1 0h1m1 0h3m1 0h1m-41 1h1m1 0h3m1 0h1m1 0h2m2 0h5m2 0h3m1 0h1m4 0h2m1 0h2m1 0h1m1 0h3m1 0h1m-41 1h1m5 0h1m1 0h2m2 0h7m1 0h3m2 0h1m1 0h2m3 0h1m1 0h1m5 0h1m-41 1h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7m-32 1h1m3 0h2m6 0h1m1 0h2m1 0h1m3 0h1m-30 1h7m2 0h2m1 0h1m1 0h6m2 0h1m1 0h3m1 0h1m1 0h1m3 0h2m3 0h1m-41 1h2m6 0h2m2 0h2m2 0h1m1 0h1m1 0h1m2 0h1m1 0h1m2 0h1m2 0h6m1 0h3m-40 1h2m2 0h4m3 0h1m7 0h2m1 0h1m1 0h3m1 0h2m1 0h1m2 0h1m3 0h1m-40 1h2m1 0h1m1 0h1m1 0h4m1 0h1m1 0h1m2 0h1m2 0h3m3 0h1m1 0h1m2 0h2m1 0h1m1 0h2m-36 1h3m1 0h1m6 0h1m2 0h4m4 0h3m1 0h2m1 0h1m5 0h2m1 0h1m-39 1h1m1 0h1m2 0h1m1 0h2m4 0h5m1 0h1m5 0h1m2 0h1m1 0h7m1 0h1m-41 1h3m1 0h1m1 0h6m1 0h1m1 0h1m2 0h1m1 0h5m2 0h5m1 0h1m4 0h1m-37 1h1m2 0h1m3 0h2m1 0h1m1 0h4m2 0h2m1 0h1m2 0h2m3 0h2m1 0h1m1 0h1m-34 1h2m1 0h4m1 0h1m1 0h1m2 0h1m1 0h3m2 0h5m1 0h1m1 0h1m1 0h1m1 0h1m2 0h3m-41 1h4m5 0h2m1 0h1m2 0h2m2 0h2m2 0h1m4 0h5m1 0h4m1 0h2m-41 1h1m1 0h2m1 0h3m1 0h3m1 0h2m1 0h1m1 0h2m4 0h1m2 0h1m1 0h1m2 0h2m2 0h1m1 0h1m-38 1h1m1 0h1m1 0h1m1 0h2m2 0h1m4 0h1m2 0h5m2 0h1m2 0h2m1 0h1m3 0h2m-38 1h2m1 0h1m1 0h2m3 0h2m1 0h1m4 0h1m2 0h1m1 0h1m3 0h1m7 0h1m2 0h2m-40 1h4m1 0h1m2 0h2m3 0h1m4 0h4m1 0h1m1 0h2m1 0h1m1 0h5m1 0h5m-41 1h3m1 0h1m1 0h1m4 0h3m1 0h1m3 0h2m4 0h4m3 0h2m3 0h1m-35 1h2m5 0h1m2 0h3m3 0h2m1 0h1m1 0h1m1 0h3m2 0h1m2 0h1m1 0h1m2 0h2m-40 1h1m2 0h4m4 0h1m1 0h1m1 0h1m1 0h3m1 0h2m1 0h2m2 0h1m5 0h1m1 0h2m1 0h1m-41 1h1m3 0h1m6 0h1m1 0h2m3 0h1m2 0h1m1 0h1m6 0h2m1 0h5m1 0h2m-40 1h3m1 0h4m1 0h2m1 0h3m4 0h2m3 0h6m1 0h1m2 0h2m2 0h1m-40 1h1m1 0h1m2 0h1m1 0h1m2 0h1m6 0h2m1 0h2m1 0h1m2 0h2m3 0h2m2 0h1m1 0h1m2 0h1m-37 1h3m1 0h4m3 0h1m2 0h2m1 0h3m1 0h3m1 0h1m1 0h1m1 0h1m1 0h1m1 0h2m-39 1h2m1 0h1m4 0h2m2 0h2m1 0h1m3 0h1m1 0h1m2 0h1m2 0h2m1 0h1m2 0h1m1 0h6m-41 1h1m1 0h2m1 0h2m3 0h1m4 0h1m1 0h4m5 0h1m6 0h2m2 0h1m-38 1h1m1 0h4m2 0h3m1 0h2m1 0h1m1 0h5m2 0h1m3 0h1m4 0h5m1 0h1m-40 1h1m1 0h1m3 0h1m3 0h1m1 0h1m1 0h1m1 0h2m1 0h2m3 0h3m1 0h3m1 0h5m1 0h1m-31 1h1m1 0h2m1 0h1m1 0h2m1 0h1m2 0h3m1 0h1m2 0h1m1 0h1m1 0h1m3 0h2m1 0h2m-41 1h7m1 0h3m5 0h1m1 0h1m1 0h1m1 0h1m2 0h4m1 0h3m1 0h1m1 0h2m-38 1h1m5 0h1m1 0h1m3 0h1m1 0h1m1 0h1m2 0h1m2 0h1m1 0h2m1 0h2m2 0h2m3 0h1m3 0h1m-41 1h1m1 0h3m1 0h1m1 0h1m1 0h5m1 0h2m2 0h1m1 0h3m1 0h1m3 0h1m1 0h5m1 0h2m-40 1h1m1 0h3m1 0h1m1 0h1m2 0h1m1 0h6m2 0h1m1 0h1m1 0h1m3 0h1m1 0h1m1 0h1m1 0h1m2 0h1m1 0h1m-41 1h1m1 0h3m1 0h1m1 0h1m1 0h1m1 0h2m2 0h1m4 0h2m1 0h1m1 0h3m3 0h6m1 0h1m-40 1h1m5 0h1m1 0h2m2 0h1m1 0h1m2 0h2m1 0h4m2 0h1m1 0h1m3 0h1m1 0h1m1 0h2m1 0h1m-40 1h7m7 0h4m3 0h1m1 0h3m3 0h1m1 0h1m1 0h4m1 0h1"/></svg><span>SCAN TO RSVP</span></div>
+    </div>
+  </section>
+  <section class="screen" id="evt3">
+    <div class="fx-eyebrow"><span class="live"></span>Featured event · Frontier Tower SF</div>
+    <div class="fx-cover" style="background-image:url('https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=cover,quality=85,width=760,height=760/api-uploads/m4/7639ebbf-0497-434d-bcf5-a6abd096d057.jpg')"></div>
+    <h1 class="fx-title">Xenobiology<span class="sub">Could life have evolved via an alternative route?</span></h1>
+    <div><span class="fx-badge">MEMBERS +3</span></div>
+    <div class="fx-when"><span class="d">FRI · OCT 30</span><span class="t">6:00 PM</span></div>
+    <div class="fx-where"><b>15th Floor Annex - Other Minds</b> · 995 Market St, San Francisco</div>
+    
+    <div class="fx-foot">
+      <div class="fx-host">Hosted by <b>Skylar Smith</b><br>&amp; Frontier Tower</div>
+      <div class="fx-qr"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 41 41" shape-rendering="crispEdges"><rect width="41" height="41" fill="#fff"/><path class="qrline" stroke="#0c0e14" d="M2 2.5h7m3 0h1m4 0h10m1 0h1m3 0h7m-37 1h1m5 0h1m1 0h1m2 0h1m3 0h5m5 0h2m3 0h1m5 0h1m-37 1h1m1 0h3m1 0h1m2 0h2m1 0h1m1 0h1m1 0h1m2 0h1m1 0h1m3 0h2m1 0h1m1 0h1m1 0h3m1 0h1m-37 1h1m1 0h3m1 0h1m1 0h1m7 0h1m3 0h6m2 0h1m1 0h1m1 0h3m1 0h1m-37 1h1m1 0h3m1 0h1m1 0h2m1 0h2m2 0h1m1 0h3m1 0h1m3 0h2m3 0h1m1 0h3m1 0h1m-37 1h1m5 0h1m4 0h2m1 0h3m2 0h1m1 0h1m1 0h2m1 0h1m3 0h1m5 0h1m-37 1h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7m-29 1h1m2 0h1m2 0h5m1 0h1m1 0h1m1 0h2m1 0h2m-28 1h1m1 0h4m1 0h1m6 0h2m2 0h2m2 0h2m1 0h1m1 0h3m1 0h2m1 0h1m-35 1h1m1 0h1m1 0h1m2 0h2m1 0h1m1 0h1m1 0h4m4 0h1m1 0h1m1 0h3m1 0h4m-29 1h3m1 0h2m4 0h2m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h2m1 0h1m3 0h1m-36 1h1m3 0h1m2 0h1m1 0h2m3 0h1m2 0h2m6 0h1m2 0h6m-35 1h1m1 0h2m1 0h7m3 0h2m1 0h1m1 0h1m3 0h1m2 0h2m1 0h2m3 0h2m-37 1h2m6 0h3m2 0h3m1 0h3m2 0h2m2 0h4m2 0h1m1 0h1m-32 1h2m1 0h2m2 0h1m2 0h1m2 0h1m2 0h4m2 0h1m1 0h5m1 0h4m-37 1h1m2 0h1m1 0h1m1 0h1m4 0h1m3 0h1m1 0h1m3 0h1m6 0h3m1 0h3m-36 1h1m1 0h3m1 0h2m1 0h1m2 0h2m3 0h3m1 0h1m2 0h2m4 0h1m3 0h1m-34 1h1m2 0h2m1 0h2m1 0h2m5 0h6m1 0h1m2 0h1m1 0h1m1 0h1m1 0h1m1 0h1m-36 1h1m1 0h2m2 0h1m1 0h2m1 0h6m1 0h1m4 0h1m3 0h1m2 0h3m1 0h1m1 0h1m-35 1h3m3 0h2m1 0h2m2 0h1m1 0h1m1 0h2m3 0h5m1 0h2m3 0h2m-37 1h1m1 0h2m2 0h3m1 0h4m1 0h1m1 0h1m6 0h1m1 0h1m1 0h1m1 0h1m1 0h2m-33 1h1m1 0h1m5 0h2m1 0h1m3 0h3m1 0h4m2 0h3m2 0h3m-34 1h1m2 0h2m1 0h1m1 0h3m1 0h2m1 0h2m1 0h4m1 0h1m1 0h1m1 0h1m2 0h1m1 0h1m1 0h1m1 0h1m-36 1h1m1 0h1m4 0h4m2 0h2m1 0h2m1 0h1m2 0h1m3 0h3m1 0h1m1 0h2m1 0h1m-37 1h2m1 0h4m2 0h2m2 0h2m1 0h1m1 0h2m2 0h1m1 0h1m3 0h1m1 0h2m-32 1h2m2 0h2m2 0h1m2 0h1m2 0h1m3 0h1m1 0h1m2 0h1m2 0h3m3 0h2m-34 1h4m2 0h2m1 0h1m1 0h1m1 0h3m3 0h2m3 0h4m2 0h1m1 0h2m1 0h2m-37 1h1m1 0h2m1 0h1m1 0h3m1 0h1m2 0h1m1 0h1m2 0h1m2 0h1m3 0h1m2 0h1m1 0h1m1 0h4m-37 1h1m2 0h7m1 0h3m4 0h1m1 0h1m1 0h1m1 0h2m1 0h8m-27 1h1m2 0h2m2 0h4m2 0h2m2 0h2m1 0h1m3 0h4m-36 1h7m2 0h1m3 0h1m2 0h1m6 0h1m4 0h1m1 0h1m1 0h3m1 0h1m-37 1h1m5 0h1m1 0h2m1 0h1m1 0h5m1 0h3m3 0h1m1 0h2m3 0h2m1 0h1m-36 1h1m1 0h3m1 0h1m1 0h2m2 0h1m3 0h2m2 0h2m2 0h1m1 0h7m3 0h1m-37 1h1m1 0h3m1 0h1m1 0h4m2 0h5m1 0h1m1 0h2m2 0h3m1 0h1m2 0h1m1 0h1m-36 1h1m1 0h3m1 0h1m2 0h1m1 0h3m7 0h3m4 0h1m2 0h2m1 0h3m-37 1h1m5 0h1m1 0h2m5 0h1m2 0h1m4 0h2m1 0h1m4 0h1m1 0h4m-37 1h7m4 0h1m1 0h1m4 0h3m1 0h1m1 0h1m1 0h1m1 0h2m2 0h1m3 0h1"/></svg><span>SCAN TO RSVP</span></div>
+    </div>
+  </section>
+  <section class="screen" id="calendar">
+    <header class="ft-head">
+      <div class="head-main">
+        <div class="brand"><div class="logo">ft</div><div class="word">frontiertower</div></div>
+        <h1>Frontier Tower SF</h1>
+        <div class="meta"><span>San Francisco</span><span class="dot"></span><span id="clock">&nbsp;</span><span class="dot"></span><span>frontiertower.io</span></div>
+      </div>
+      <div class="qr-card"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 33 33" shape-rendering="crispEdges"><rect width="33" height="33" fill="#fff"/><path class="qrline" stroke="#0c0e14" d="M2 2.5h7m2 0h3m2 0h4m4 0h7m-29 1h1m5 0h1m2 0h1m1 0h1m1 0h1m2 0h1m2 0h1m2 0h1m5 0h1m-29 1h1m1 0h3m1 0h1m1 0h1m4 0h1m3 0h4m1 0h1m1 0h3m1 0h1m-29 1h1m1 0h3m1 0h1m4 0h2m1 0h1m1 0h1m1 0h2m2 0h1m1 0h3m1 0h1m-29 1h1m1 0h3m1 0h1m1 0h3m1 0h2m2 0h1m1 0h1m3 0h1m1 0h3m1 0h1m-29 1h1m5 0h1m1 0h1m1 0h2m1 0h5m1 0h1m2 0h1m5 0h1m-29 1h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7m-18 1h1m2 0h1m1 0h3m1 0h1m-20 1h1m2 0h1m1 0h1m1 0h1m2 0h2m1 0h2m1 0h1m1 0h3m1 0h2m1 0h1m-25 1h1m1 0h1m2 0h4m1 0h1m2 0h2m1 0h1m3 0h3m1 0h3m-29 1h1m1 0h1m1 0h3m2 0h2m2 0h2m2 0h1m3 0h1m1 0h1m2 0h1m1 0h1m-29 1h3m1 0h2m2 0h1m2 0h3m1 0h1m1 0h2m1 0h2m3 0h1m1 0h2m-26 1h1m1 0h4m1 0h1m1 0h1m1 0h1m1 0h4m3 0h1m4 0h1m-29 1h3m6 0h2m3 0h3m1 0h1m3 0h1m1 0h1m1 0h1m1 0h1m-24 1h4m1 0h1m1 0h1m1 0h1m1 0h3m2 0h1m2 0h1m3 0h1m-26 1h3m1 0h1m2 0h4m2 0h3m1 0h1m1 0h2m1 0h1m-26 1h3m2 0h2m1 0h2m1 0h1m2 0h1m2 0h1m3 0h1m1 0h1m3 0h2m-29 1h2m1 0h3m1 0h2m1 0h2m2 0h1m1 0h2m4 0h5m1 0h1m-23 1h2m1 0h1m1 0h2m3 0h1m1 0h1m4 0h2m1 0h1m1 0h1m-27 1h1m1 0h2m1 0h1m1 0h2m1 0h3m2 0h1m1 0h1m4 0h2m1 0h1m-28 1h2m1 0h2m1 0h3m1 0h1m2 0h1m1 0h1m1 0h1m1 0h7m1 0h2m-21 1h1m1 0h1m2 0h4m1 0h3m3 0h1m1 0h1m1 0h1m-29 1h7m2 0h1m1 0h5m3 0h2m1 0h1m1 0h1m2 0h2m-29 1h1m5 0h1m3 0h4m3 0h1m1 0h2m3 0h2m2 0h1m-29 1h1m1 0h3m1 0h1m1 0h4m1 0h3m2 0h7m2 0h2m-29 1h1m1 0h3m1 0h1m2 0h3m6 0h1m4 0h1m3 0h1m-28 1h1m1 0h3m1 0h1m2 0h1m3 0h1m1 0h2m2 0h3m3 0h4m-29 1h1m5 0h1m1 0h3m1 0h2m1 0h6m1 0h2m1 0h1m1 0h2m-29 1h7m2 0h4m4 0h1m2 0h2m2 0h2m1 0h1"/></svg><span>Scan for events</span></div>
+    </header>
+    <iframe class="cal" title="Frontier Tower events" src="https://luma.com/embed/calendar/cal-Sl7q1nHTRXQzjP2/events?lt=dark" referrerpolicy="no-referrer-when-downgrade"></iframe>
+  </section>
+  <section class="screen" id="brand">
+    <div class="b-logo">ft</div>
+    <h2>Frontier Tower<br>San Francisco</h2>
+    <div class="tag">16 floors. Countless founders. One constitution, written from the inside.</div>
+    <div class="verticals"><span class="chip">AI</span><span class="chip">crypto</span><span class="chip">biotech</span><span class="chip">robotics</span><span class="chip">neurotech</span><span class="chip">longevity</span></div>
+    <div class="url">frontiertower.io</div>
+  </section>
+<script>
+  (function(){var el=document.getElementById('clock');if(!el)return;
+    function t(){try{el.textContent=new Date().toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit',timeZone:'America/Los_Angeles'})+' PDT';}catch(e){el.textContent='';}}
+    t();setInterval(t,15000);})();
+  (function(){var home=document.getElementById('home');if(!home)return;
+    var words=['built','shipped','scaled','funded','alive'],w=home.querySelector('.hw-word'),i=0;
+    setInterval(function(){i=(i+1)%words.length;w.textContent=words[i];},2200);
+    function hx(n){var s='',h='0123456789ABCDEF';for(var k=0;k<n;k++){s+=h[Math.floor(Math.random()*16)]+((k%3===2)?'\n':' ');}return s;}
+    var cols=home.querySelectorAll('.hx');function fill(){cols.forEach(function(c){c.textContent=hx(80);});}
+    fill();setInterval(fill,1500);})();
+  var order=[{id:"home",ms:14000},{id:"evt1",ms:16000},{id:"evt2",ms:16000},{id:"evt3",ms:16000},{id:"calendar",ms:22000},{id:"brand",ms:12000}],i=0,screens=document.querySelectorAll('.screen');
+  function show(){screens.forEach(function(s){s.classList.remove('on');});
+    document.getElementById(order[i].id).classList.add('on');
+    setTimeout(function(){i=(i+1)%order.length;show();},order[i].ms);}
+  show();
+</script>
+</body>
+</html>
