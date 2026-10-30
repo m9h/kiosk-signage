@@ -65,19 +65,19 @@
   .fx-qr span{color:#0c0e14;font-family:var(--mono);font-size:2.3vw;font-weight:700;letter-spacing:.08em;}
 
   /* home hero (recreated FT homepage) */
-  #home{background:#f6f7fb;color:#15171e;padding:7vw 7vw;align-items:center;text-align:center;overflow:hidden;}
-  #home::before{content:"";position:absolute;inset:4vw;border:1px dashed rgba(90,63,224,.28);pointer-events:none;}
-  .h-hud{position:absolute;font-family:var(--mono);font-size:2.4vw;letter-spacing:.18em;color:rgba(21,23,30,.55);}
+  #home{background:radial-gradient(110vw 70vh at 50% 62%,rgba(125,92,255,.20),transparent 65%),var(--bg);color:var(--fg);padding:7vw 7vw;align-items:center;text-align:center;overflow:hidden;}
+  #home::before{content:"";position:absolute;inset:4vw;border:1px dashed rgba(125,92,255,.30);pointer-events:none;}
+  .h-hud{position:absolute;font-family:var(--mono);font-size:2.4vw;letter-spacing:.18em;color:rgba(238,240,245,.5);}
   .h-tl{top:6vw;left:7vw;} .h-tr{top:6vw;right:7vw;} .h-bl{bottom:6vw;left:7vw;color:var(--crimson);} .h-br{bottom:6vw;right:7vw;}
-  .hx{position:absolute;top:12vw;bottom:12vw;width:7vw;font-family:var(--mono);font-size:2.2vw;line-height:2.1;color:rgba(90,63,224,.14);white-space:pre-wrap;word-break:break-all;overflow:hidden;pointer-events:none;}
+  .hx{position:absolute;top:12vw;bottom:12vw;width:7vw;font-family:var(--mono);font-size:2.2vw;line-height:2.1;color:rgba(125,92,255,.20);white-space:pre-wrap;word-break:break-all;overflow:hidden;pointer-events:none;}
   .hx-l{left:3vw;} .hx-r{right:3vw;text-align:right;}
-  .h-pill{margin-top:10vw;font-family:var(--mono);font-size:3vw;letter-spacing:.14em;color:#5a3fe0;background:rgba(125,92,255,.1);border:1px solid rgba(125,92,255,.3);border-radius:999px;padding:1.4vw 4vw;}
+  .h-pill{margin-top:10vw;font-family:var(--mono);font-size:3vw;letter-spacing:.14em;color:#b9a9ff;background:rgba(125,92,255,.14);border:1px solid rgba(125,92,255,.4);border-radius:999px;padding:1.4vw 4vw;}
   .h-head{font-size:11vw;font-weight:800;letter-spacing:-.03em;line-height:1;margin:5vw 0 0;}
-  .h-head .hw-word{color:#5a3fe0;font-style:italic;}
-  .caret{display:inline-block;width:.5vw;height:9vw;background:#5a3fe0;margin-left:1vw;vertical-align:-1.4vw;animation:blink 1s step-end infinite;}
+  .h-head .hw-word{color:#8b6bff;font-style:italic;}
+  .caret{display:inline-block;width:.5vw;height:9vw;background:#8b6bff;margin-left:1vw;vertical-align:-1.4vw;animation:blink 1s step-end infinite;}
   @keyframes blink{50%{opacity:0}}
-  .h-tower{width:48vw;max-width:360px;height:40vh;margin:4vw auto 0;}
-  .h-sub{font-size:3.4vw;color:#4a505c;line-height:1.5;max-width:82vw;margin:3vw auto 0;}
+  .h-tower{width:48vw;max-width:360px;height:40vh;margin:4vw auto 0;filter:drop-shadow(0 0 3vw rgba(125,92,255,.35));}
+  .h-sub{font-size:3.4vw;color:var(--muted);line-height:1.5;max-width:82vw;margin:3vw auto 0;}
 
   /* poster slide — a digital recreation of the elevator poster */
   #poster{--ink:#1b1b2b;--pu:#4a3bd0;--pmut:#6b6b7a;--cream:#f1efe8;
@@ -120,6 +120,21 @@
   .st-grid b.pu{color:#8b6bff;}
   .st-grid span{font-family:var(--mono);font-size:2.2vw;letter-spacing:.03em;color:var(--muted);text-transform:uppercase;}
   .st-foot{margin-top:4vw;font-family:var(--mono);font-size:2.4vw;color:var(--gold-2);letter-spacing:.03em;}
+
+  /* momentum piece — funding + venture arm (from the Boost VC visit post) */
+  #momentum{padding:9vw 8vw;justify-content:center;gap:2.8vw;background:radial-gradient(120vw 80vw at 50% 100%,rgba(125,92,255,.18),transparent 60%),var(--bg);}
+  .mo-eye{font-family:var(--mono);font-size:2.6vw;letter-spacing:.14em;color:#b9a9ff;}
+  .mo-head{font-size:9vw;font-weight:800;letter-spacing:-.02em;line-height:.98;margin:0;}
+  .mo-big{display:flex;flex-direction:column;gap:.6vw;margin-top:1vw;}
+  .mo-big b{font-size:16vw;font-weight:800;line-height:.9;letter-spacing:-.03em;color:#8b6bff;}
+  .mo-big span{font-size:3.1vw;color:var(--muted);line-height:1.35;max-width:82vw;}
+  .mo-tags{font-family:var(--mono);font-size:2.5vw;letter-spacing:.05em;color:var(--fg);opacity:.82;}
+  .mo-launch{font-size:3.6vw;line-height:1.35;font-weight:500;border-left:.8vw solid #7d5cff;padding-left:3vw;margin-top:1vw;}
+  .mo-launch b{color:#b9a9ff;font-weight:800;}
+  .mo-proof{margin-top:3vw;display:flex;flex-direction:column;gap:1.2vw;border-top:1px solid rgba(255,255,255,.12);padding-top:3.4vw;}
+  .mo-proof-eye{font-family:var(--mono);font-size:2.2vw;letter-spacing:.16em;color:var(--muted);}
+  .mo-proof-name{font-size:5vw;font-weight:800;letter-spacing:-.01em;}
+  .mo-proof-sub{font-family:var(--mono);font-size:2.5vw;color:var(--gold-2);letter-spacing:.02em;}
 
   /* citizen piece — the apply CTA */
   #citizen{padding:11vw 8vw;justify-content:center;gap:4vw;background:var(--ft-grad);color:#fff;}

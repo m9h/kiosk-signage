@@ -1,5 +1,5 @@
 {
-  "_comment": "Kiosk rotation. Edit this list, then run scripts/build-kiosk.py (or scripts/push-cycle.sh <ip...>). Slide types: home | event | calendar | brand. For an event, 'url' is the only required field; everything else is pulled from Luma. Optional per-event overrides: title, subtitle, badge, tagline, cover. 'ms' is dwell time in milliseconds.",
+  "_comment": "Kiosk rotation. Edit this list, then run scripts/build-kiosk.py (or scripts/push-cycle.sh <ip...>). Slide types: home | event | network | stats | citizen | momentum | brand | poster | image | calendar. For an event, 'url' is the only required field; everything else is pulled from Luma, and the slide drops out of rotation by itself once the event ends. Optional per-event overrides: title, subtitle, badge, tagline, cover. 'after': <url of an event listed earlier> keeps a slide hidden until that event has ended (use it to queue a replacement in the same slot). 'ms' is dwell time in milliseconds. Keep event slides apart so no two play back to back.",
   "calendar_embed": "https://luma.com/embed/calendar/cal-Sl7q1nHTRXQzjP2/events?lt=dark",
   "rotation": [
     { "type": "home", "ms": 14000 },
@@ -7,13 +7,19 @@
       "url": "https://luma.com/cypherpunk-society-inaugral-meeting",
       "title": "Cypherpunk Society", "subtitle": "Inaugural Meeting",
       "tagline": "A practitioner community for open-source digital self-defense, privacy tools, investigative literacy, and freedom bandwidth." },
+    { "type": "network", "ms": 14000 },
     { "type": "event", "ms": 16000,
       "url": "https://luma.com/san-francisco-cognitive-science-reading--9b7e",
       "title": "SF CogSci #34", "subtitle": "Tapes Together Strong", "badge": "MEMBERS ONLY",
       "tagline": "Reading & discussion: the co-evolution of computation and cooperation. A monthly cognitive-science salon." },
-    { "type": "brand", "ms": 12000 },
+    { "type": "stats", "ms": 13000 },
     { "type": "event", "ms": 16000,
       "url": "https://luma.com/xenobiology-could-life-have-evolved-via-" },
+    { "type": "event", "ms": 16000,
+      "url": "https://luma.com/weekly-accountabili-tea-circle-reflectio-fa85",
+      "after": "https://luma.com/xenobiology-could-life-have-evolved-via-" },
+    { "type": "citizen", "ms": 13000, "url": "https://frontiertower.io/apply" },
+    { "type": "momentum", "ms": 14000 },
     { "type": "calendar", "ms": 22000 }
   ]
 }

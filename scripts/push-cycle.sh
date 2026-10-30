@@ -21,10 +21,17 @@ else
 fi
 [ "$#" -ge 1 ] || { echo "usage: $0 <ip-or-serial> ..." >&2; exit 2; }
 
+# The URL goes to the stick as a script file rather than an adb shell argument:
+# Android 9 sticks (3rd gen) drop an adb command over ~64 KB ("error: closed"),
+# while a single argument on the device itself may be up to 128 KB.
+CMD=$(mktemp); trap 'rm -f "$CMD"' EXIT
+printf "am start -n org.mhough.kiosk/.KioskActivity --es url '%s' --ei rotation %s\n" "$URL" "$ROT" > "$CMD"
+
 for DEV in "$@"; do
   case "$DEV" in *.*.*.*) adb connect "$DEV:5555" >/dev/null 2>&1 || true; T="$DEV:5555";; *) T="$DEV";; esac
   echo "== $T"
+  adb -s "$T" push "$CMD" /data/local/tmp/kiosk-start.sh >/dev/null
   adb -s "$T" shell am force-stop org.mhough.kiosk
   sleep 1
-  adb -s "$T" shell "am start -n org.mhough.kiosk/.KioskActivity --es url '$URL' --ei rotation $ROT" | tail -1
+  adb -s "$T" shell sh /data/local/tmp/kiosk-start.sh | tail -1
 done

@@ -39,7 +39,8 @@
   #brand .tag{font-size:3.4vw;color:var(--muted);line-height:1.4;max-width:80vw;}
   #brand .verticals{display:flex;flex-wrap:wrap;gap:1.6vw;justify-content:center;margin-top:5vw;}
   #brand .chip{font-family:var(--mono);font-size:2.6vw;border:1px solid rgba(125,92,255,.5);color:#b9a9ff;border-radius:999px;padding:1vw 2.6vw;}
-  #brand .url{margin-top:7vw;font-family:var(--mono);font-size:3vw;color:var(--gold-2);letter-spacing:.04em;}
+  #brand .b-spaces{margin-top:3.4vw;font-family:var(--mono);font-size:2.2vw;color:var(--muted);letter-spacing:.02em;max-width:84vw;line-height:1.5;}
+  #brand .url{margin-top:5vw;font-family:var(--mono);font-size:3vw;color:var(--gold-2);letter-spacing:.04em;}
 
   /* featured event */
   [id^="evt"]{padding:6vw 6vw 5vw;background:radial-gradient(90vw 60vw at 50% 8%,rgba(227,179,65,.14),transparent 62%),radial-gradient(70vw 50vw at 50% 100%,rgba(226,64,90,.12),transparent 60%),var(--bg);}
@@ -64,19 +65,110 @@
   .fx-qr span{color:#0c0e14;font-family:var(--mono);font-size:2.3vw;font-weight:700;letter-spacing:.08em;}
 
   /* home hero (recreated FT homepage) */
-  #home{background:#f6f7fb;color:#15171e;padding:7vw 7vw;align-items:center;text-align:center;overflow:hidden;}
-  #home::before{content:"";position:absolute;inset:4vw;border:1px dashed rgba(90,63,224,.28);pointer-events:none;}
-  .h-hud{position:absolute;font-family:var(--mono);font-size:2.4vw;letter-spacing:.18em;color:rgba(21,23,30,.55);}
+  #home{background:radial-gradient(110vw 70vh at 50% 62%,rgba(125,92,255,.20),transparent 65%),var(--bg);color:var(--fg);padding:7vw 7vw;align-items:center;text-align:center;overflow:hidden;}
+  #home::before{content:"";position:absolute;inset:4vw;border:1px dashed rgba(125,92,255,.30);pointer-events:none;}
+  .h-hud{position:absolute;font-family:var(--mono);font-size:2.4vw;letter-spacing:.18em;color:rgba(238,240,245,.5);}
   .h-tl{top:6vw;left:7vw;} .h-tr{top:6vw;right:7vw;} .h-bl{bottom:6vw;left:7vw;color:var(--crimson);} .h-br{bottom:6vw;right:7vw;}
-  .hx{position:absolute;top:12vw;bottom:12vw;width:7vw;font-family:var(--mono);font-size:2.2vw;line-height:2.1;color:rgba(90,63,224,.14);white-space:pre-wrap;word-break:break-all;overflow:hidden;pointer-events:none;}
+  .hx{position:absolute;top:12vw;bottom:12vw;width:7vw;font-family:var(--mono);font-size:2.2vw;line-height:2.1;color:rgba(125,92,255,.20);white-space:pre-wrap;word-break:break-all;overflow:hidden;pointer-events:none;}
   .hx-l{left:3vw;} .hx-r{right:3vw;text-align:right;}
-  .h-pill{margin-top:10vw;font-family:var(--mono);font-size:3vw;letter-spacing:.14em;color:#5a3fe0;background:rgba(125,92,255,.1);border:1px solid rgba(125,92,255,.3);border-radius:999px;padding:1.4vw 4vw;}
+  .h-pill{margin-top:10vw;font-family:var(--mono);font-size:3vw;letter-spacing:.14em;color:#b9a9ff;background:rgba(125,92,255,.14);border:1px solid rgba(125,92,255,.4);border-radius:999px;padding:1.4vw 4vw;}
   .h-head{font-size:11vw;font-weight:800;letter-spacing:-.03em;line-height:1;margin:5vw 0 0;}
-  .h-head .hw-word{color:#5a3fe0;font-style:italic;}
-  .caret{display:inline-block;width:.5vw;height:9vw;background:#5a3fe0;margin-left:1vw;vertical-align:-1.4vw;animation:blink 1s step-end infinite;}
+  .h-head .hw-word{color:#8b6bff;font-style:italic;}
+  .caret{display:inline-block;width:.5vw;height:9vw;background:#8b6bff;margin-left:1vw;vertical-align:-1.4vw;animation:blink 1s step-end infinite;}
   @keyframes blink{50%{opacity:0}}
-  .h-tower{width:48vw;max-width:360px;height:40vh;margin:4vw auto 0;}
-  .h-sub{font-size:3.4vw;color:#4a505c;line-height:1.5;max-width:82vw;margin:3vw auto 0;}
+  .h-tower{width:48vw;max-width:360px;height:40vh;margin:4vw auto 0;filter:drop-shadow(0 0 3vw rgba(125,92,255,.35));}
+  .h-sub{font-size:3.4vw;color:var(--muted);line-height:1.5;max-width:82vw;margin:3vw auto 0;}
+
+  /* poster slide — a digital recreation of the elevator poster */
+  #poster{--ink:#1b1b2b;--pu:#4a3bd0;--pmut:#6b6b7a;--cream:#f1efe8;
+    background:var(--cream);color:var(--ink);padding:5vw 5.5vw;gap:2.4vw;justify-content:flex-start;}
+  #poster .po-head{display:flex;align-items:center;justify-content:space-between;}
+  .po-brand{display:flex;align-items:center;gap:1.4vw;font-weight:700;font-size:3.2vw;letter-spacing:-.01em;}
+  .po-logo{width:6vw;height:6vw;max-width:60px;max-height:60px;border-radius:1.4vw;background:var(--ft-grad);color:#fff;display:grid;place-items:center;font-weight:800;font-size:3.4vw;letter-spacing:-.04em;}
+  .po-loc{font-family:var(--mono);font-size:2vw;letter-spacing:.08em;color:var(--pmut);}
+  .po-label{font-family:var(--mono);font-size:2.3vw;letter-spacing:.12em;color:var(--pu);font-weight:700;}
+  .po-label em{color:var(--pmut);font-style:normal;margin-left:1.2vw;}
+  .po-title{font-size:10vw;font-weight:800;letter-spacing:-.03em;line-height:.9;margin:.4vw 0 1vw;}
+  .po-title .pu{color:var(--pu);}
+  .po-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:2vw;border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);padding:2.4vw 0;}
+  .po-stats div{display:flex;flex-direction:column;gap:.4vw;}
+  .po-stats b{font-size:5.6vw;font-weight:800;line-height:1;letter-spacing:-.02em;}
+  .po-stats div:nth-child(3) b{color:var(--pu);}
+  .po-stats span{font-family:var(--mono);font-size:1.7vw;letter-spacing:.04em;color:var(--pmut);text-transform:uppercase;line-height:1.2;}
+  .po-frontiers{display:flex;flex-wrap:wrap;gap:1.6vw;}
+  .po-frontiers span{font-size:3vw;font-weight:700;color:#fff;background:#6b5bd6;border-radius:999px;padding:1.4vw 3.2vw;}
+  .po-frontiers .hub{background:var(--ink);}
+  .po-note{font-family:var(--mono);font-size:2vw;color:var(--pmut);letter-spacing:.02em;}
+  .po-perks{display:flex;flex-wrap:wrap;gap:1.4vw;}
+  .po-perks span{font-size:2.7vw;font-weight:600;color:var(--pu);border:1.5px solid rgba(74,59,208,.4);border-radius:999px;padding:1vw 2.6vw;}
+  .po-cta{margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:4vw;
+    background:var(--ft-grad);border-radius:3vw;padding:4vw 4.5vw;color:#fff;}
+  .po-cta-label{font-family:var(--mono);font-size:2.1vw;letter-spacing:.12em;opacity:.85;}
+  .po-cta-big{font-size:6.4vw;font-weight:800;letter-spacing:-.02em;line-height:1;margin:1.4vw 0 1.6vw;}
+  .po-cta-url{font-family:var(--mono);font-size:2.8vw;letter-spacing:.04em;opacity:.95;}
+  .po-qr{flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:1vw;background:#fff;border-radius:2.2vw;padding:2.2vw 2.2vw 1.6vw;}
+  .po-qr svg{width:26vw;max-width:230px;height:auto;display:block;}
+  .po-qr span{color:#1b1b2b;font-family:var(--mono);font-size:2vw;font-weight:700;letter-spacing:.08em;}
+
+  /* stats piece — "built from here" */
+  #stats{padding:9vw 7vw;justify-content:center;gap:2.6vw;background:radial-gradient(120vw 70vw at 50% 0%,rgba(125,92,255,.14),transparent 60%),var(--bg);}
+  .st-eye{font-family:var(--mono);font-size:2.6vw;letter-spacing:.14em;color:#b9a9ff;}
+  .st-head{font-size:7.4vw;font-weight:800;letter-spacing:-.02em;line-height:1.0;}
+  .st-sub{font-size:3.1vw;color:var(--muted);line-height:1.45;max-width:84vw;}
+  .st-grid{display:grid;grid-template-columns:1fr 1fr;gap:5vw 6vw;margin-top:3vw;}
+  .st-grid b{display:block;font-size:11vw;font-weight:800;line-height:.95;letter-spacing:-.02em;}
+  .st-grid b.pu{color:#8b6bff;}
+  .st-grid span{font-family:var(--mono);font-size:2.2vw;letter-spacing:.03em;color:var(--muted);text-transform:uppercase;}
+  .st-foot{margin-top:4vw;font-family:var(--mono);font-size:2.4vw;color:var(--gold-2);letter-spacing:.03em;}
+
+  /* momentum piece — funding + venture arm (from the Boost VC visit post) */
+  #momentum{padding:9vw 8vw;justify-content:center;gap:2.8vw;background:radial-gradient(120vw 80vw at 50% 100%,rgba(125,92,255,.18),transparent 60%),var(--bg);}
+  .mo-eye{font-family:var(--mono);font-size:2.6vw;letter-spacing:.14em;color:#b9a9ff;}
+  .mo-head{font-size:9vw;font-weight:800;letter-spacing:-.02em;line-height:.98;margin:0;}
+  .mo-big{display:flex;flex-direction:column;gap:.6vw;margin-top:1vw;}
+  .mo-big b{font-size:16vw;font-weight:800;line-height:.9;letter-spacing:-.03em;color:#8b6bff;}
+  .mo-big span{font-size:3.1vw;color:var(--muted);line-height:1.35;max-width:82vw;}
+  .mo-tags{font-family:var(--mono);font-size:2.5vw;letter-spacing:.05em;color:var(--fg);opacity:.82;}
+  .mo-launch{font-size:3.6vw;line-height:1.35;font-weight:500;border-left:.8vw solid #7d5cff;padding-left:3vw;margin-top:1vw;}
+  .mo-launch b{color:#b9a9ff;font-weight:800;}
+  .mo-proof{margin-top:3vw;display:flex;flex-direction:column;gap:1.2vw;border-top:1px solid rgba(255,255,255,.12);padding-top:3.4vw;}
+  .mo-proof-eye{font-family:var(--mono);font-size:2.2vw;letter-spacing:.16em;color:var(--muted);}
+  .mo-proof-name{font-size:5vw;font-weight:800;letter-spacing:-.01em;}
+  .mo-proof-sub{font-family:var(--mono);font-size:2.5vw;color:var(--gold-2);letter-spacing:.02em;}
+
+  /* citizen piece — the apply CTA */
+  #citizen{padding:11vw 8vw;justify-content:center;gap:4vw;background:var(--ft-grad);color:#fff;}
+  .cz-eye{font-family:var(--mono);font-size:2.8vw;letter-spacing:.14em;opacity:.85;}
+  .cz-title{font-size:11vw;font-weight:800;letter-spacing:-.02em;line-height:.98;margin:0;}
+  .cz-perks{display:flex;flex-direction:column;gap:2vw;font-size:3.6vw;font-weight:600;}
+  .cz-perks span{display:flex;align-items:center;gap:2vw;}
+  .cz-perks span::before{content:"▸";color:#d9ccff;}
+  .cz-foot{display:flex;align-items:center;gap:5vw;margin-top:3vw;}
+  .cz-qr{flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:1vw;background:#fff;border-radius:2.4vw;padding:2.4vw 2.4vw 1.8vw;}
+  .cz-qr svg{width:30vw;max-width:260px;height:auto;display:block;}
+  .cz-qr span{color:#1b1b2b;font-family:var(--mono);font-size:2.2vw;font-weight:700;letter-spacing:.06em;}
+  .cz-url{font-family:var(--mono);font-size:3.4vw;font-weight:700;letter-spacing:.02em;line-height:1.3;}
+
+  /* network piece — THE FRONTIERS node diagram */
+  #network{background:#f1efe8;color:#1b1b2b;padding:6vw 5vw 5vw;gap:2vw;align-items:center;justify-content:space-between;text-align:center;}
+  .nw-top{display:flex;flex-direction:column;align-items:center;gap:1.4vw;width:100%;}
+  .nw-label{font-family:var(--mono);font-size:2.4vw;letter-spacing:.1em;color:#4a3bd0;font-weight:700;}
+  .nw-label em{color:#6b6b7a;font-style:normal;margin-left:1vw;}
+  .nw-head{font-family:Inter,system-ui,sans-serif;font-weight:800;font-size:6.6vw;line-height:1.02;letter-spacing:-.01em;margin:0;text-wrap:balance;}
+  .nw-tag{font-family:Inter,system-ui,sans-serif;font-size:2.7vw;line-height:1.4;color:#44444f;max-width:88%;margin:0;text-wrap:balance;}
+  .nw-diagram{flex:1 1 auto;width:100%;min-height:0;display:flex;align-items:center;justify-content:center;}
+  .nw-diagram svg{max-height:100%;max-width:100%;}
+  .nw-bottom{display:flex;flex-direction:column;align-items:center;gap:1.8vw;width:100%;}
+  .nw-note{font-family:var(--mono);font-size:2.1vw;color:#6b6b7a;}
+  .nw-legend{display:flex;gap:4vw;font-family:var(--mono);font-size:2.1vw;color:#3a3a4a;}
+  .nw-legend .lg{display:flex;align-items:center;gap:1.2vw;}
+  .nw-legend .lg::before{content:"";width:2.4vw;height:2.4vw;border-radius:50%;flex:0 0 auto;}
+  .nw-legend .f::before{background:#6b5bd6;}
+  .nw-legend .s::before{background:#dfd9f7;border:1px solid #c3b9f0;}
+  .nw-legend .e::before{background:#15121b;border-radius:3px;}
+  .nw-foot{display:flex;flex-wrap:wrap;justify-content:center;gap:1vw 2.2vw;font-family:var(--mono);font-size:2vw;color:#8a8a97;}
+  .nw-foot span{position:relative;}
+  .nw-foot span+span::before{content:"·";position:absolute;left:-1.3vw;color:#c3bfe0;}
 </style>
 </head>
 <body>
@@ -102,6 +194,19 @@
       <div class="fx-qr"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 41 41" shape-rendering="crispEdges"><rect width="41" height="41" fill="#fff"/><path class="qrline" stroke="#0c0e14" d="M2 2.5h7m1 0h3m1 0h1m1 0h2m1 0h2m2 0h2m1 0h3m1 0h1m1 0h7m-37 1h1m5 0h1m5 0h3m1 0h1m1 0h1m1 0h2m5 0h2m1 0h1m5 0h1m-37 1h1m1 0h3m1 0h1m2 0h2m2 0h1m1 0h1m3 0h1m1 0h2m1 0h1m1 0h3m1 0h1m1 0h3m1 0h1m-37 1h1m1 0h3m1 0h1m4 0h1m1 0h1m1 0h1m9 0h3m2 0h1m1 0h3m1 0h1m-37 1h1m1 0h3m1 0h1m1 0h1m2 0h1m1 0h1m1 0h1m1 0h2m4 0h1m6 0h1m1 0h3m1 0h1m-37 1h1m5 0h1m1 0h2m1 0h3m4 0h2m7 0h2m1 0h1m5 0h1m-37 1h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7m-23 1h1m1 0h1m2 0h5m4 0h1m-28 1h7m4 0h1m1 0h1m2 0h1m6 0h1m6 0h2m3 0h1m-35 1h2m1 0h1m2 0h2m3 0h4m1 0h4m1 0h1m1 0h1m1 0h1m3 0h1m2 0h1m-35 1h3m1 0h1m1 0h1m1 0h2m2 0h1m2 0h1m1 0h1m6 0h5m1 0h1m4 0h2m-37 1h1m2 0h1m1 0h1m1 0h3m2 0h2m1 0h1m1 0h5m1 0h1m2 0h1m1 0h1m1 0h2m3 0h1m-32 1h6m2 0h1m1 0h4m4 0h6m1 0h7m-34 1h2m1 0h1m1 0h1m1 0h1m1 0h1m2 0h3m2 0h1m3 0h1m4 0h2m1 0h1m1 0h2m-34 1h3m2 0h1m1 0h1m1 0h3m2 0h1m1 0h1m1 0h1m2 0h1m2 0h1m1 0h2m2 0h1m1 0h1m1 0h2m-37 1h5m4 0h2m1 0h2m2 0h3m8 0h5m3 0h1m-36 1h1m1 0h1m2 0h2m2 0h1m2 0h3m2 0h10m2 0h4m1 0h2m-36 1h1m4 0h1m1 0h2m4 0h1m1 0h1m2 0h3m4 0h2m1 0h2m1 0h1m2 0h1m-35 1h2m2 0h1m1 0h1m1 0h4m3 0h4m1 0h1m1 0h6m1 0h4m2 0h2m-34 1h1m3 0h2m1 0h1m2 0h3m2 0h2m1 0h1m1 0h1m3 0h1m2 0h1m2 0h1m2 0h1m-36 1h2m2 0h2m1 0h1m2 0h1m4 0h4m2 0h5m2 0h8m-37 1h1m4 0h1m10 0h3m1 0h1m2 0h1m1 0h1m3 0h1m1 0h1m1 0h1m-34 1h1m3 0h1m1 0h3m2 0h1m2 0h4m2 0h3m2 0h3m6 0h3m-35 1h2m3 0h1m1 0h1m2 0h1m1 0h4m1 0h1m1 0h2m2 0h1m3 0h3m3 0h2m-36 1h3m2 0h1m1 0h2m1 0h1m1 0h1m2 0h2m4 0h1m1 0h1m1 0h1m2 0h7m-36 1h1m1 0h4m2 0h1m2 0h1m4 0h3m1 0h4m1 0h1m2 0h1m2 0h1m-32 1h1m1 0h1m1 0h1m1 0h1m2 0h1m2 0h1m1 0h3m2 0h3m4 0h2m2 0h2m3 0h2m-37 1h1m1 0h4m3 0h2m3 0h4m3 0h2m5 0h2m1 0h1m3 0h1m-36 1h1m5 0h4m1 0h1m1 0h1m2 0h1m3 0h1m1 0h1m1 0h3m1 0h7m1 0h1m-29 1h3m1 0h1m6 0h3m1 0h1m2 0h3m3 0h1m-33 1h7m1 0h1m2 0h5m1 0h2m2 0h1m6 0h1m1 0h1m1 0h2m1 0h2m-37 1h1m5 0h1m1 0h2m3 0h1m2 0h1m1 0h1m1 0h3m4 0h2m3 0h1m2 0h1m-36 1h1m1 0h3m1 0h1m1 0h1m1 0h2m2 0h1m2 0h2m2 0h1m3 0h8m1 0h1m1 0h1m-37 1h1m1 0h3m1 0h1m1 0h2m1 0h3m4 0h1m1 0h1m1 0h1m1 0h1m1 0h1m3 0h1m1 0h1m1 0h2m-36 1h1m1 0h3m1 0h1m1 0h3m4 0h1m2 0h2m1 0h2m4 0h3m1 0h1m2 0h1m1 0h1m-37 1h1m5 0h1m1 0h1m1 0h4m1 0h7m2 0h1m1 0h3m1 0h2m4 0h1m-37 1h7m2 0h1m1 0h1m1 0h1m1 0h3m1 0h1m5 0h2m3 0h1m1 0h5"/></svg><span>SCAN TO RSVP</span></div>
     </div>
   </section>
+  <section class="screen" id="network">
+    <div class="nw-top">
+      <div class="nw-label">[ 01 // THE FRONTIERS ]<em>16 floors // one network</em></div>
+      <h2 class="nw-head">Where the frontier is.</h2>
+      <p class="nw-tag">A member-run vertical village &mdash; 16 floors of AI, robotics, biotech, crypto, longevity and the arts, inside a 1908 landmark.</p>
+    </div>
+    <div class="nw-diagram"><svg viewBox="0 0 400 420" width="100%" height="100%" preserveAspectRatio="xMidYMid meet"><line x1="200.0" y1="80.0" x2="314.3" y2="146.0" stroke="#cbc3ef" stroke-width="1" stroke-dasharray="2 3"/><line x1="314.3" y1="146.0" x2="314.3" y2="278.0" stroke="#cbc3ef" stroke-width="1" stroke-dasharray="2 3"/><line x1="314.3" y1="278.0" x2="200.0" y2="344.0" stroke="#cbc3ef" stroke-width="1" stroke-dasharray="2 3"/><line x1="200.0" y1="344.0" x2="85.7" y2="278.0" stroke="#cbc3ef" stroke-width="1" stroke-dasharray="2 3"/><line x1="85.7" y1="278.0" x2="85.7" y2="146.0" stroke="#cbc3ef" stroke-width="1" stroke-dasharray="2 3"/><line x1="85.7" y1="146.0" x2="200.0" y2="80.0" stroke="#cbc3ef" stroke-width="1" stroke-dasharray="2 3"/><line x1="200.0" y1="212.0" x2="200.0" y2="80.0" stroke="#9a8be8" stroke-width="1.4"/><line x1="200.0" y1="212.0" x2="314.3" y2="146.0" stroke="#9a8be8" stroke-width="1.4"/><line x1="200.0" y1="212.0" x2="314.3" y2="278.0" stroke="#9a8be8" stroke-width="1.4"/><line x1="200.0" y1="212.0" x2="200.0" y2="344.0" stroke="#9a8be8" stroke-width="1.4"/><line x1="200.0" y1="212.0" x2="85.7" y2="278.0" stroke="#9a8be8" stroke-width="1.4"/><line x1="200.0" y1="212.0" x2="85.7" y2="146.0" stroke="#9a8be8" stroke-width="1.4"/><circle cx="200.0" cy="212.0" r="42" fill="#15121b"/><text x="200.0" y="192.6" text-anchor="middle" font-family="ui-monospace,monospace" font-size="6" fill="#b9a9ff" letter-spacing="0.6">• EVENTS</text><text x="200.0" y="209.4" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-weight="700" font-size="13" fill="#fff">The</text><text x="200.0" y="223.4" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-weight="700" font-size="13" fill="#fff">Spaceship</text><circle cx="200.0" cy="80.0" r="47" fill="#6b5bd6" stroke="#5a3fe0" stroke-width="1.5"/><text x="200.0" y="68.4" text-anchor="middle" font-family="ui-monospace,monospace" font-size="6" fill="#d7cff6" letter-spacing="0.6">// FRONTIER</text><text x="200.0" y="84.1" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-weight="700" font-size="12" fill="#fff">AI</text><circle cx="314.3" cy="146.0" r="47" fill="#6b5bd6" stroke="#5a3fe0" stroke-width="1.5"/><text x="314.3" y="134.4" text-anchor="middle" font-family="ui-monospace,monospace" font-size="6" fill="#d7cff6" letter-spacing="0.6">// FRONTIER</text><text x="314.3" y="150.1" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-weight="700" font-size="12" fill="#fff">Robotics</text><circle cx="314.3" cy="278.0" r="47" fill="#6b5bd6" stroke="#5a3fe0" stroke-width="1.5"/><text x="314.3" y="259.9" text-anchor="middle" font-family="ui-monospace,monospace" font-size="6" fill="#d7cff6" letter-spacing="0.6">// FRONTIER</text><text x="314.3" y="275.6" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-weight="700" font-size="12" fill="#fff">Bio &amp;</text><text x="314.3" y="288.6" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-weight="700" font-size="12" fill="#fff">Neurotech</text><circle cx="200.0" cy="344.0" r="47" fill="#6b5bd6" stroke="#5a3fe0" stroke-width="1.5"/><text x="200.0" y="325.9" text-anchor="middle" font-family="ui-monospace,monospace" font-size="6" fill="#d7cff6" letter-spacing="0.6">// FRONTIER</text><text x="200.0" y="341.6" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-weight="700" font-size="12" fill="#fff">Ethereum &amp;</text><text x="200.0" y="354.6" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-weight="700" font-size="12" fill="#fff">Blockchain</text><circle cx="85.7" cy="278.0" r="47" fill="#6b5bd6" stroke="#5a3fe0" stroke-width="1.5"/><text x="85.7" y="259.9" text-anchor="middle" font-family="ui-monospace,monospace" font-size="6" fill="#d7cff6" letter-spacing="0.6">// FRONTIER</text><text x="85.7" y="275.6" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-weight="700" font-size="12" fill="#fff">Art &amp;</text><text x="85.7" y="288.6" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-weight="700" font-size="12" fill="#fff">Music</text><circle cx="85.7" cy="146.0" r="47" fill="#6b5bd6" stroke="#5a3fe0" stroke-width="1.5"/><text x="85.7" y="127.9" text-anchor="middle" font-family="ui-monospace,monospace" font-size="6" fill="#d7cff6" letter-spacing="0.6">// FRONTIER</text><text x="85.7" y="143.6" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-weight="700" font-size="12" fill="#fff">Other</text><text x="85.7" y="156.6" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-weight="700" font-size="12" fill="#fff">Minds</text><circle cx="133.0" cy="96.0" r="21" fill="#e4dff9" stroke="#c3b9f0" stroke-width="1.2"/><text x="133.0" y="81.8" text-anchor="middle" font-family="ui-monospace,monospace" font-size="4.6" fill="#8a7bd6" letter-spacing="0.6">SPACE</text><text x="133.0" y="94.0" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-weight="700" font-size="9" fill="#3a2b6b">Private</text><text x="133.0" y="104.0" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-weight="700" font-size="9" fill="#3a2b6b">Offices</text><circle cx="267.0" cy="96.0" r="21" fill="#e4dff9" stroke="#c3b9f0" stroke-width="1.2"/><text x="267.0" y="86.8" text-anchor="middle" font-family="ui-monospace,monospace" font-size="4.6" fill="#8a7bd6" letter-spacing="0.6">SPACE</text><text x="267.0" y="99.0" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-weight="700" font-size="9" fill="#3a2b6b">Cowork</text><circle cx="334.0" cy="212.0" r="21" fill="#e4dff9" stroke="#c3b9f0" stroke-width="1.2"/><text x="334.0" y="202.8" text-anchor="middle" font-family="ui-monospace,monospace" font-size="4.6" fill="#8a7bd6" letter-spacing="0.6">SPACE</text><text x="334.0" y="215.1" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-weight="700" font-size="9" fill="#3a2b6b">Lounge</text><circle cx="133.0" cy="328.0" r="21" fill="#e4dff9" stroke="#c3b9f0" stroke-width="1.2"/><text x="133.0" y="313.8" text-anchor="middle" font-family="ui-monospace,monospace" font-size="4.6" fill="#8a7bd6" letter-spacing="0.6">SPACE</text><text x="133.0" y="326.1" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-weight="700" font-size="9" fill="#3a2b6b">Podcast</text><text x="133.0" y="336.1" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-weight="700" font-size="9" fill="#3a2b6b">+ Gym</text></svg></div>
+    <div class="nw-bottom">
+      <div class="nw-note">Communities, not floors. Every frontier runs across the whole tower.</div>
+      <div class="nw-legend"><span class="lg f">Frontiers</span><span class="lg s">Spaces</span><span class="lg e">Events</span></div>
+      <div class="nw-foot"><span>Open until 2&nbsp;AM</span><span>Founders on every floor</span><span>frontiertower.io</span></div>
+    </div>
+  </section>
   <section class="screen" id="evt2">
     <div class="fx-eyebrow"><span class="live"></span>Featured event · Frontier Tower SF</div>
     <div class="fx-cover" style="background-image:url('https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=cover,quality=85,width=760,height=760/api-uploads/hj/377fe3a5-5cdb-47be-acab-c044ed5614ea.jpg')"></div>
@@ -115,12 +220,17 @@
       <div class="fx-qr"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 45 45" shape-rendering="crispEdges"><rect width="45" height="45" fill="#fff"/><path class="qrline" stroke="#0c0e14" d="M2 2.5h7m1 0h3m1 0h1m1 0h3m2 0h1m2 0h4m2 0h1m1 0h3m1 0h7m-41 1h1m5 0h1m3 0h1m5 0h1m1 0h1m2 0h2m2 0h4m1 0h1m3 0h1m5 0h1m-41 1h1m1 0h3m1 0h1m4 0h1m2 0h1m2 0h1m1 0h1m1 0h1m1 0h3m1 0h2m2 0h2m1 0h1m1 0h3m1 0h1m-41 1h1m1 0h3m1 0h1m2 0h1m3 0h1m1 0h1m2 0h7m1 0h2m2 0h3m1 0h1m1 0h3m1 0h1m-41 1h1m1 0h3m1 0h1m1 0h2m2 0h5m2 0h3m1 0h1m4 0h2m1 0h2m1 0h1m1 0h3m1 0h1m-41 1h1m5 0h1m1 0h2m2 0h7m1 0h3m2 0h1m1 0h2m3 0h1m1 0h1m5 0h1m-41 1h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7m-32 1h1m3 0h2m6 0h1m1 0h2m1 0h1m3 0h1m-30 1h7m2 0h2m1 0h1m1 0h6m2 0h1m1 0h3m1 0h1m1 0h1m3 0h2m3 0h1m-41 1h2m6 0h2m2 0h2m2 0h1m1 0h1m1 0h1m2 0h1m1 0h1m2 0h1m2 0h6m1 0h3m-40 1h2m2 0h4m3 0h1m7 0h2m1 0h1m1 0h3m1 0h2m1 0h1m2 0h1m3 0h1m-40 1h2m1 0h1m1 0h1m1 0h4m1 0h1m1 0h1m2 0h1m2 0h3m3 0h1m1 0h1m2 0h2m1 0h1m1 0h2m-36 1h3m1 0h1m6 0h1m2 0h4m4 0h3m1 0h2m1 0h1m5 0h2m1 0h1m-39 1h1m1 0h1m2 0h1m1 0h2m4 0h5m1 0h1m5 0h1m2 0h1m1 0h7m1 0h1m-41 1h3m1 0h1m1 0h6m1 0h1m1 0h1m2 0h1m1 0h5m2 0h5m1 0h1m4 0h1m-37 1h1m2 0h1m3 0h2m1 0h1m1 0h4m2 0h2m1 0h1m2 0h2m3 0h2m1 0h1m1 0h1m-34 1h2m1 0h4m1 0h1m1 0h1m2 0h1m1 0h3m2 0h5m1 0h1m1 0h1m1 0h1m1 0h1m2 0h3m-41 1h4m5 0h2m1 0h1m2 0h2m2 0h2m2 0h1m4 0h5m1 0h4m1 0h2m-41 1h1m1 0h2m1 0h3m1 0h3m1 0h2m1 0h1m1 0h2m4 0h1m2 0h1m1 0h1m2 0h2m2 0h1m1 0h1m-38 1h1m1 0h1m1 0h1m1 0h2m2 0h1m4 0h1m2 0h5m2 0h1m2 0h2m1 0h1m3 0h2m-38 1h2m1 0h1m1 0h2m3 0h2m1 0h1m4 0h1m2 0h1m1 0h1m3 0h1m7 0h1m2 0h2m-40 1h4m1 0h1m2 0h2m3 0h1m4 0h4m1 0h1m1 0h2m1 0h1m1 0h5m1 0h5m-41 1h3m1 0h1m1 0h1m4 0h3m1 0h1m3 0h2m4 0h4m3 0h2m3 0h1m-35 1h2m5 0h1m2 0h3m3 0h2m1 0h1m1 0h1m1 0h3m2 0h1m2 0h1m1 0h1m2 0h2m-40 1h1m2 0h4m4 0h1m1 0h1m1 0h1m1 0h3m1 0h2m1 0h2m2 0h1m5 0h1m1 0h2m1 0h1m-41 1h1m3 0h1m6 0h1m1 0h2m3 0h1m2 0h1m1 0h1m6 0h2m1 0h5m1 0h2m-40 1h3m1 0h4m1 0h2m1 0h3m4 0h2m3 0h6m1 0h1m2 0h2m2 0h1m-40 1h1m1 0h1m2 0h1m1 0h1m2 0h1m6 0h2m1 0h2m1 0h1m2 0h2m3 0h2m2 0h1m1 0h1m2 0h1m-37 1h3m1 0h4m3 0h1m2 0h2m1 0h3m1 0h3m1 0h1m1 0h1m1 0h1m1 0h1m1 0h2m-39 1h2m1 0h1m4 0h2m2 0h2m1 0h1m3 0h1m1 0h1m2 0h1m2 0h2m1 0h1m2 0h1m1 0h6m-41 1h1m1 0h2m1 0h2m3 0h1m4 0h1m1 0h4m5 0h1m6 0h2m2 0h1m-38 1h1m1 0h4m2 0h3m1 0h2m1 0h1m1 0h5m2 0h1m3 0h1m4 0h5m1 0h1m-40 1h1m1 0h1m3 0h1m3 0h1m1 0h1m1 0h1m1 0h2m1 0h2m3 0h3m1 0h3m1 0h5m1 0h1m-31 1h1m1 0h2m1 0h1m1 0h2m1 0h1m2 0h3m1 0h1m2 0h1m1 0h1m1 0h1m3 0h2m1 0h2m-41 1h7m1 0h3m5 0h1m1 0h1m1 0h1m1 0h1m2 0h4m1 0h3m1 0h1m1 0h2m-38 1h1m5 0h1m1 0h1m3 0h1m1 0h1m1 0h1m2 0h1m2 0h1m1 0h2m1 0h2m2 0h2m3 0h1m3 0h1m-41 1h1m1 0h3m1 0h1m1 0h1m1 0h5m1 0h2m2 0h1m1 0h3m1 0h1m3 0h1m1 0h5m1 0h2m-40 1h1m1 0h3m1 0h1m1 0h1m2 0h1m1 0h6m2 0h1m1 0h1m1 0h1m3 0h1m1 0h1m1 0h1m1 0h1m2 0h1m1 0h1m-41 1h1m1 0h3m1 0h1m1 0h1m1 0h1m1 0h2m2 0h1m4 0h2m1 0h1m1 0h3m3 0h6m1 0h1m-40 1h1m5 0h1m1 0h2m2 0h1m1 0h1m2 0h2m1 0h4m2 0h1m1 0h1m3 0h1m1 0h1m1 0h2m1 0h1m-40 1h7m7 0h4m3 0h1m1 0h3m3 0h1m1 0h1m1 0h4m1 0h1"/></svg><span>SCAN TO RSVP</span></div>
     </div>
   </section>
-  <section class="screen" id="brand">
-    <div class="b-logo">ft</div>
-    <h2>Frontier Tower<br>San Francisco</h2>
-    <div class="tag">16 floors. Countless founders. One constitution, written from the inside.</div>
-    <div class="verticals"><span class="chip">AI</span><span class="chip">crypto</span><span class="chip">biotech</span><span class="chip">robotics</span><span class="chip">neurotech</span><span class="chip">longevity</span></div>
-    <div class="url">frontiertower.io</div>
+  <section class="screen" id="stats">
+    <div class="st-eye">[ 02 // BUILT FROM HERE ]</div>
+    <div class="st-head">A member-run vertical village.</div>
+    <div class="st-sub">16 floors of AI, robotics, biotech, crypto, longevity and the arts — inside a 1908 landmark.</div>
+    <div class="st-grid">
+      <div><b>450+</b><span>Citizens in the tower</span></div>
+      <div><b>500+</b><span>Events in year one</span></div>
+      <div><b class="pu">$150m</b><span>Raised by tower founders</span></div>
+      <div><b>70K+</b><span>Visitors through the doors</span></div>
+    </div>
+    <div class="st-foot">frontiertower.io · 995 Market St, San Francisco</div>
   </section>
   <section class="screen" id="evt3">
     <div class="fx-eyebrow"><span class="live"></span>Featured event · Frontier Tower SF</div>
@@ -133,6 +243,40 @@
     <div class="fx-foot">
       <div class="fx-host">Hosted by <b>Skylar Smith</b><br>&amp; Frontier Tower</div>
       <div class="fx-qr"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 41 41" shape-rendering="crispEdges"><rect width="41" height="41" fill="#fff"/><path class="qrline" stroke="#0c0e14" d="M2 2.5h7m3 0h1m4 0h10m1 0h1m3 0h7m-37 1h1m5 0h1m1 0h1m2 0h1m3 0h5m5 0h2m3 0h1m5 0h1m-37 1h1m1 0h3m1 0h1m2 0h2m1 0h1m1 0h1m1 0h1m2 0h1m1 0h1m3 0h2m1 0h1m1 0h1m1 0h3m1 0h1m-37 1h1m1 0h3m1 0h1m1 0h1m7 0h1m3 0h6m2 0h1m1 0h1m1 0h3m1 0h1m-37 1h1m1 0h3m1 0h1m1 0h2m1 0h2m2 0h1m1 0h3m1 0h1m3 0h2m3 0h1m1 0h3m1 0h1m-37 1h1m5 0h1m4 0h2m1 0h3m2 0h1m1 0h1m1 0h2m1 0h1m3 0h1m5 0h1m-37 1h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7m-29 1h1m2 0h1m2 0h5m1 0h1m1 0h1m1 0h2m1 0h2m-28 1h1m1 0h4m1 0h1m6 0h2m2 0h2m2 0h2m1 0h1m1 0h3m1 0h2m1 0h1m-35 1h1m1 0h1m1 0h1m2 0h2m1 0h1m1 0h1m1 0h4m4 0h1m1 0h1m1 0h3m1 0h4m-29 1h3m1 0h2m4 0h2m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h2m1 0h1m3 0h1m-36 1h1m3 0h1m2 0h1m1 0h2m3 0h1m2 0h2m6 0h1m2 0h6m-35 1h1m1 0h2m1 0h7m3 0h2m1 0h1m1 0h1m3 0h1m2 0h2m1 0h2m3 0h2m-37 1h2m6 0h3m2 0h3m1 0h3m2 0h2m2 0h4m2 0h1m1 0h1m-32 1h2m1 0h2m2 0h1m2 0h1m2 0h1m2 0h4m2 0h1m1 0h5m1 0h4m-37 1h1m2 0h1m1 0h1m1 0h1m4 0h1m3 0h1m1 0h1m3 0h1m6 0h3m1 0h3m-36 1h1m1 0h3m1 0h2m1 0h1m2 0h2m3 0h3m1 0h1m2 0h2m4 0h1m3 0h1m-34 1h1m2 0h2m1 0h2m1 0h2m5 0h6m1 0h1m2 0h1m1 0h1m1 0h1m1 0h1m1 0h1m-36 1h1m1 0h2m2 0h1m1 0h2m1 0h6m1 0h1m4 0h1m3 0h1m2 0h3m1 0h1m1 0h1m-35 1h3m3 0h2m1 0h2m2 0h1m1 0h1m1 0h2m3 0h5m1 0h2m3 0h2m-37 1h1m1 0h2m2 0h3m1 0h4m1 0h1m1 0h1m6 0h1m1 0h1m1 0h1m1 0h1m1 0h2m-33 1h1m1 0h1m5 0h2m1 0h1m3 0h3m1 0h4m2 0h3m2 0h3m-34 1h1m2 0h2m1 0h1m1 0h3m1 0h2m1 0h2m1 0h4m1 0h1m1 0h1m1 0h1m2 0h1m1 0h1m1 0h1m1 0h1m-36 1h1m1 0h1m4 0h4m2 0h2m1 0h2m1 0h1m2 0h1m3 0h3m1 0h1m1 0h2m1 0h1m-37 1h2m1 0h4m2 0h2m2 0h2m1 0h1m1 0h2m2 0h1m1 0h1m3 0h1m1 0h2m-32 1h2m2 0h2m2 0h1m2 0h1m2 0h1m3 0h1m1 0h1m2 0h1m2 0h3m3 0h2m-34 1h4m2 0h2m1 0h1m1 0h1m1 0h3m3 0h2m3 0h4m2 0h1m1 0h2m1 0h2m-37 1h1m1 0h2m1 0h1m1 0h3m1 0h1m2 0h1m1 0h1m2 0h1m2 0h1m3 0h1m2 0h1m1 0h1m1 0h4m-37 1h1m2 0h7m1 0h3m4 0h1m1 0h1m1 0h1m1 0h2m1 0h8m-27 1h1m2 0h2m2 0h4m2 0h2m2 0h2m1 0h1m3 0h4m-36 1h7m2 0h1m3 0h1m2 0h1m6 0h1m4 0h1m1 0h1m1 0h3m1 0h1m-37 1h1m5 0h1m1 0h2m1 0h1m1 0h5m1 0h3m3 0h1m1 0h2m3 0h2m1 0h1m-36 1h1m1 0h3m1 0h1m1 0h2m2 0h1m3 0h2m2 0h2m2 0h1m1 0h7m3 0h1m-37 1h1m1 0h3m1 0h1m1 0h4m2 0h5m1 0h1m1 0h2m2 0h3m1 0h1m2 0h1m1 0h1m-36 1h1m1 0h3m1 0h1m2 0h1m1 0h3m7 0h3m4 0h1m2 0h2m1 0h3m-37 1h1m5 0h1m1 0h2m5 0h1m2 0h1m4 0h2m1 0h1m4 0h1m1 0h4m-37 1h7m4 0h1m1 0h1m4 0h3m1 0h1m1 0h1m1 0h1m1 0h2m2 0h1m3 0h1"/></svg><span>SCAN TO RSVP</span></div>
+    </div>
+  </section>
+  <section class="screen" id="evt4">
+    <div class="fx-eyebrow"><span class="live"></span>Featured event · Frontier Tower SF</div>
+    <div class="fx-cover" style="background-image:url('https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=cover,quality=85,width=760,height=760/api-uploads/wv/9a997b3b-3c4c-4cf2-ae33-caeeb5b7fada.jpg')"></div>
+    <h1 class="fx-title">Weekly Accountabili-tea Circle<span class="sub">Reflection &amp; Planning #39</span></h1>
+    <div><span class="fx-badge">MEMBERS ONLY</span></div>
+    <div class="fx-when"><span class="d">MON · NOV 2</span><span class="t">1:00 PM</span></div>
+    <div class="fx-where"><b>16th Floor Teahouse</b> · 995 Market St, San Francisco</div>
+    
+    <div class="fx-foot">
+      <div class="fx-host">Hosted by <b>Laurence Ion</b><br>&amp; Frontier Tower</div>
+      <div class="fx-qr"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 45 45" shape-rendering="crispEdges"><rect width="45" height="45" fill="#fff"/><path class="qrline" stroke="#0c0e14" d="M2 2.5h7m2 0h2m1 0h2m1 0h1m3 0h1m1 0h1m1 0h1m2 0h3m1 0h1m3 0h7m-41 1h1m5 0h1m3 0h2m2 0h7m2 0h2m5 0h3m1 0h1m5 0h1m-41 1h1m1 0h3m1 0h1m1 0h3m2 0h1m4 0h1m1 0h3m1 0h2m3 0h2m1 0h1m1 0h1m1 0h3m1 0h1m-41 1h1m1 0h3m1 0h1m2 0h1m1 0h8m1 0h2m1 0h1m2 0h4m1 0h1m2 0h1m1 0h3m1 0h1m-41 1h1m1 0h3m1 0h1m1 0h1m1 0h1m3 0h2m3 0h1m3 0h7m4 0h1m1 0h3m1 0h1m-41 1h1m5 0h1m1 0h1m3 0h1m4 0h2m3 0h1m3 0h1m1 0h1m2 0h1m2 0h1m5 0h1m-41 1h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7m-32 1h2m2 0h3m1 0h2m1 0h4m2 0h4m1 0h1m-31 1h1m2 0h1m1 0h1m1 0h4m2 0h1m1 0h4m1 0h1m1 0h1m5 0h1m1 0h3m1 0h2m1 0h1m-39 1h2m1 0h1m1 0h1m1 0h1m4 0h8m3 0h1m1 0h5m4 0h4m2 0h1m-40 1h2m3 0h1m3 0h2m1 0h2m1 0h1m1 0h1m1 0h3m1 0h2m1 0h2m1 0h1m1 0h2m2 0h1m2 0h2m-41 1h2m1 0h3m2 0h1m2 0h1m1 0h1m2 0h1m3 0h5m4 0h7m1 0h1m-38 1h1m4 0h4m6 0h1m4 0h1m3 0h1m2 0h3m2 0h1m6 0h2m-40 1h2m1 0h2m1 0h2m1 0h1m2 0h1m1 0h8m3 0h1m4 0h1m1 0h2m1 0h1m1 0h1m1 0h1m-40 1h3m1 0h2m6 0h1m1 0h3m2 0h1m5 0h2m1 0h3m1 0h2m2 0h1m2 0h1m-41 1h1m2 0h2m2 0h1m1 0h3m2 0h4m3 0h2m1 0h1m2 0h6m2 0h3m1 0h2m-40 1h2m1 0h1m1 0h1m2 0h1m1 0h1m1 0h1m4 0h4m1 0h2m4 0h2m1 0h1m2 0h1m1 0h1m1 0h1m-36 1h1m2 0h2m2 0h1m1 0h1m2 0h4m3 0h1m1 0h6m2 0h4m1 0h1m1 0h1m-40 1h3m1 0h3m1 0h2m3 0h4m1 0h5m3 0h1m2 0h1m1 0h1m2 0h1m1 0h1m2 0h1m-40 1h1m1 0h1m1 0h1m1 0h3m2 0h1m2 0h4m1 0h5m1 0h2m3 0h1m2 0h2m1 0h1m2 0h1m-40 1h3m2 0h3m4 0h1m1 0h1m2 0h1m2 0h1m2 0h3m4 0h3m1 0h1m1 0h1m1 0h1m-39 1h2m1 0h1m2 0h2m2 0h1m2 0h2m3 0h1m3 0h2m2 0h2m1 0h1m3 0h1m1 0h1m3 0h1m-41 1h1m1 0h3m1 0h3m1 0h1m2 0h1m2 0h4m2 0h9m1 0h2m3 0h1m2 0h1m-40 1h2m1 0h2m1 0h1m5 0h8m2 0h1m2 0h2m1 0h3m2 0h2m1 0h1m1 0h1m-37 1h4m1 0h2m1 0h3m1 0h2m1 0h2m1 0h3m5 0h1m1 0h3m3 0h1m1 0h2m-40 1h2m1 0h2m1 0h1m1 0h1m1 0h1m3 0h1m2 0h4m1 0h1m2 0h2m2 0h1m1 0h5m1 0h1m1 0h1m-41 1h1m1 0h2m2 0h2m2 0h1m1 0h5m1 0h1m1 0h1m1 0h3m2 0h1m1 0h2m1 0h1m1 0h1m5 0h1m-40 1h5m1 0h1m2 0h4m2 0h2m2 0h2m2 0h1m1 0h7m1 0h1m1 0h2m2 0h1m-38 1h6m2 0h2m8 0h1m1 0h1m5 0h1m2 0h1m2 0h1m4 0h1m-41 1h2m11 0h2m5 0h2m2 0h3m1 0h5m2 0h3m1 0h2m-37 1h1m1 0h1m1 0h1m1 0h2m5 0h2m1 0h1m1 0h3m1 0h1m1 0h3m2 0h1m1 0h1m1 0h2m1 0h1m-39 1h2m3 0h2m1 0h2m1 0h2m1 0h2m1 0h1m2 0h2m2 0h1m2 0h2m2 0h1m2 0h2m2 0h1m-41 1h4m2 0h1m1 0h4m3 0h3m2 0h1m6 0h1m1 0h1m1 0h7m1 0h2m-33 1h2m1 0h1m1 0h2m2 0h1m2 0h4m2 0h3m2 0h2m3 0h3m1 0h1m-41 1h7m2 0h1m1 0h1m3 0h1m3 0h1m1 0h1m1 0h7m1 0h2m1 0h1m1 0h2m2 0h1m-41 1h1m5 0h1m2 0h1m3 0h1m2 0h1m5 0h1m2 0h1m2 0h5m3 0h1m-37 1h1m1 0h3m1 0h1m1 0h1m1 0h3m1 0h2m2 0h1m1 0h2m2 0h2m2 0h1m1 0h8m1 0h1m-40 1h1m1 0h3m1 0h1m2 0h1m1 0h2m2 0h1m1 0h2m1 0h1m1 0h2m2 0h4m1 0h1m3 0h1m2 0h3m-41 1h1m1 0h3m1 0h1m4 0h1m1 0h1m2 0h3m1 0h2m1 0h1m2 0h5m2 0h1m4 0h3m-41 1h1m5 0h1m1 0h5m1 0h3m2 0h1m1 0h1m1 0h2m1 0h1m2 0h2m1 0h4m1 0h1m1 0h2m-41 1h7m2 0h1m3 0h1m1 0h3m1 0h2m2 0h2m1 0h2m1 0h1m2 0h2m1 0h3m1 0h1"/></svg><span>SCAN TO RSVP</span></div>
+    </div>
+  </section>
+  <section class="screen" id="citizen">
+    <div class="cz-eye">[ 04 // BECOME A CITIZEN ]</div>
+    <h2 class="cz-title">The frontier<br>has an address.</h2>
+    <div class="cz-perks"><span>Hundreds of events a year</span><span>Hot desks + conference rooms</span><span>Podcast studio + fitness center</span><span>Open until 2 AM</span><span>Founders on every floor</span></div>
+    <div class="cz-foot">
+      <div class="cz-qr"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 33 33" shape-rendering="crispEdges"><rect width="33" height="33" fill="#fff"/><path class="qrline" stroke="#0c0e14" d="M2 2.5h7m1 0h3m2 0h1m1 0h1m6 0h7m-29 1h1m5 0h1m1 0h1m1 0h2m2 0h2m1 0h1m4 0h1m5 0h1m-29 1h1m1 0h3m1 0h1m2 0h5m2 0h1m5 0h1m1 0h3m1 0h1m-29 1h1m1 0h3m1 0h1m2 0h1m1 0h3m1 0h3m2 0h1m1 0h1m1 0h3m1 0h1m-29 1h1m1 0h3m1 0h1m2 0h1m3 0h4m1 0h3m1 0h1m1 0h3m1 0h1m-29 1h1m5 0h1m5 0h2m1 0h1m2 0h1m3 0h1m5 0h1m-29 1h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7m-19 1h3m1 0h2m2 0h2m-19 1h1m4 0h3m1 0h5m2 0h1m2 0h2m5 0h2m-28 1h1m1 0h3m1 0h1m2 0h3m1 0h1m2 0h3m3 0h3m1 0h1m-28 1h2m4 0h5m3 0h4m2 0h3m2 0h2m-27 1h1m2 0h3m3 0h1m2 0h1m1 0h1m3 0h1m3 0h2m1 0h1m-20 1h2m1 0h3m7 0h1m1 0h2m4 0h1m-27 1h1m1 0h2m4 0h4m1 0h1m2 0h1m1 0h2m1 0h1m1 0h2m2 0h1m-29 1h1m1 0h1m1 0h3m1 0h4m4 0h1m4 0h3m-21 1h2m2 0h4m2 0h2m1 0h1m1 0h2m1 0h2m1 0h3m1 0h1m-28 1h2m1 0h4m2 0h3m1 0h1m2 0h1m7 0h2m-27 1h1m1 0h2m1 0h1m2 0h1m2 0h1m1 0h2m1 0h1m2 0h2m1 0h1m1 0h2m2 0h1m-29 1h3m1 0h1m1 0h1m3 0h1m1 0h1m1 0h1m1 0h2m1 0h1m3 0h1m4 0h1m-29 1h1m1 0h3m4 0h1m3 0h4m1 0h5m1 0h2m2 0h1m-29 1h1m1 0h2m1 0h7m1 0h1m2 0h2m1 0h6m1 0h1m1 0h1m-21 1h1m3 0h1m1 0h2m1 0h2m1 0h1m3 0h4m-28 1h7m1 0h2m3 0h1m1 0h2m1 0h3m1 0h1m1 0h1m-25 1h1m5 0h1m2 0h1m1 0h1m1 0h1m2 0h1m2 0h2m3 0h2m2 0h1m-29 1h1m1 0h3m1 0h1m7 0h11m2 0h2m-29 1h1m1 0h3m1 0h1m2 0h4m4 0h4m2 0h1m1 0h1m1 0h1m-28 1h1m1 0h3m1 0h1m3 0h2m1 0h3m2 0h8m1 0h1m-28 1h1m5 0h1m1 0h1m1 0h1m5 0h1m4 0h1m2 0h3m1 0h1m-29 1h7m3 0h3m2 0h1m1 0h1m4 0h1m1 0h3"/></svg><span>SCAN TO APPLY</span></div>
+      <div class="cz-url">APPLY ▸<br>frontiertower.io/apply</div>
+    </div>
+  </section>
+  <section class="screen" id="momentum">
+    <div class="mo-eye">[ 05 // MOMENTUM ]</div>
+    <h2 class="mo-head">The frontier<br>is funded.</h2>
+    <div class="mo-big"><b>$150M+</b><span>raised by tower founders in under 18 months.</span></div>
+    <div class="mo-tags">AI &middot; Biotech &middot; Neurotech &middot; Robotics &middot; Crypto</div>
+    <div class="mo-launch">Now launching <b>Frontier Heroes</b> &mdash; the Tower&rsquo;s own venture arm.</div>
+    <div class="mo-proof">
+      <span class="mo-proof-eye">RECENTLY IN THE BUILDING</span>
+      <span class="mo-proof-name">Boost VC &middot; Adam Draper</span>
+      <span class="mo-proof-sub">&ldquo;Backing science fiction since 2012.&rdquo;</span>
     </div>
   </section>
   <section class="screen" id="calendar">
@@ -156,8 +300,10 @@
     function hx(n){var s='',h='0123456789ABCDEF';for(var k=0;k<n;k++){s+=h[Math.floor(Math.random()*16)]+((k%3===2)?'\n':' ');}return s;}
     var cols=home.querySelectorAll('.hx');function fill(){cols.forEach(function(c){c.textContent=hx(80);});}
     fill();setInterval(fill,1500);})();
-  var order=[{id:"home",ms:14000},{id:"evt1",ms:16000},{id:"evt2",ms:16000},{id:"brand",ms:12000},{id:"evt3",ms:16000},{id:"calendar",ms:22000}],i=0,screens=document.querySelectorAll('.screen');
-  function show(){screens.forEach(function(s){s.classList.remove('on');});
+  var order=[{id:"home",ms:14000},{id:"evt1",ms:16000,until:1793941200000},{id:"network",ms:14000},{id:"evt2",ms:16000,until:1793768400000},{id:"stats",ms:13000},{id:"evt3",ms:16000,until:1793417400000},{id:"evt4",ms:16000,until:1793660400000,since:1793417400000},{id:"citizen",ms:13000},{id:"momentum",ms:14000},{id:"calendar",ms:22000}],i=0,screens=document.querySelectorAll('.screen');
+  function live(o){var t=Date.now();return (!o.until||t<o.until)&&(!o.since||t>=o.since);}
+  function show(){for(var n=0;n<order.length&&!live(order[i]);n++){i=(i+1)%order.length;}
+    screens.forEach(function(s){s.classList.remove('on');});
     document.getElementById(order[i].id).classList.add('on');
     setTimeout(function(){i=(i+1)%order.length;show();},order[i].ms);}
   show();

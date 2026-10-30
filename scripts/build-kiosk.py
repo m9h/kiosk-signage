@@ -18,7 +18,7 @@ Dependency: segno (pip install segno). Run with a python that has it, e.g. the
 project QR venv.
 """
 import argparse, io, json, os, re, sys, urllib.request
-from datetime import datetime
+from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -84,10 +84,13 @@ def event_fields(url, data, ov):
     dt = datetime.fromisoformat(ev["start_at"].replace("Z", "+00:00")).astimezone(tz)
     when_date = dt.strftime("%a · %b %-d").upper()
     when_time = dt.strftime("%-I:%M %p")
+    end = (datetime.fromisoformat(ev["end_at"].replace("Z", "+00:00")) if ev.get("end_at")
+           else dt + timedelta(hours=3))
+    until = int(end.timestamp() * 1000)    # the slide drops out of rotation once the event ends
 
     addr = (ev.get("geo_address_info") or {}).get("address", "")
     venue = addr.split("@", 1)[1] if "@" in addr else addr
-    venue = re.split(r"\s*995\s*Market", venue)[0].strip()
+    venue = re.split(r"\s*995\s*Market", venue)[0].strip().rstrip(",").strip()
     where = (f"<b>{esc(venue)}</b> · 995 Market St, San Francisco" if venue
              else "<b>Frontier Tower</b> · 995 Market St, San Francisco")
 
@@ -99,7 +102,7 @@ def event_fields(url, data, ov):
     cover = transform_cover(ov.get("cover") or ev.get("cover_url", ""))
     return dict(title=esc(title), subtitle=esc(subtitle), badge=esc(badge),
                 when_date=esc(when_date), when_time=esc(when_time), where=where,
-                host=host, cover=cover, tagline=esc(ov.get("tagline", "")), rsvp=url)
+                host=host, cover=cover, tagline=esc(ov.get("tagline", "")), rsvp=url, until=until)
 
 
 # ---------------------------------------------------------------- tower svg
@@ -363,19 +366,19 @@ CSS = r'''
   .fx-qr span{color:#0c0e14;font-family:var(--mono);font-size:2.3vw;font-weight:700;letter-spacing:.08em;}
 
   /* home hero (recreated FT homepage) */
-  #home{background:#f6f7fb;color:#15171e;padding:7vw 7vw;align-items:center;text-align:center;overflow:hidden;}
-  #home::before{content:"";position:absolute;inset:4vw;border:1px dashed rgba(90,63,224,.28);pointer-events:none;}
-  .h-hud{position:absolute;font-family:var(--mono);font-size:2.4vw;letter-spacing:.18em;color:rgba(21,23,30,.55);}
+  #home{background:radial-gradient(110vw 70vh at 50% 62%,rgba(125,92,255,.20),transparent 65%),var(--bg);color:var(--fg);padding:7vw 7vw;align-items:center;text-align:center;overflow:hidden;}
+  #home::before{content:"";position:absolute;inset:4vw;border:1px dashed rgba(125,92,255,.30);pointer-events:none;}
+  .h-hud{position:absolute;font-family:var(--mono);font-size:2.4vw;letter-spacing:.18em;color:rgba(238,240,245,.5);}
   .h-tl{top:6vw;left:7vw;} .h-tr{top:6vw;right:7vw;} .h-bl{bottom:6vw;left:7vw;color:var(--crimson);} .h-br{bottom:6vw;right:7vw;}
-  .hx{position:absolute;top:12vw;bottom:12vw;width:7vw;font-family:var(--mono);font-size:2.2vw;line-height:2.1;color:rgba(90,63,224,.14);white-space:pre-wrap;word-break:break-all;overflow:hidden;pointer-events:none;}
+  .hx{position:absolute;top:12vw;bottom:12vw;width:7vw;font-family:var(--mono);font-size:2.2vw;line-height:2.1;color:rgba(125,92,255,.20);white-space:pre-wrap;word-break:break-all;overflow:hidden;pointer-events:none;}
   .hx-l{left:3vw;} .hx-r{right:3vw;text-align:right;}
-  .h-pill{margin-top:10vw;font-family:var(--mono);font-size:3vw;letter-spacing:.14em;color:#5a3fe0;background:rgba(125,92,255,.1);border:1px solid rgba(125,92,255,.3);border-radius:999px;padding:1.4vw 4vw;}
+  .h-pill{margin-top:10vw;font-family:var(--mono);font-size:3vw;letter-spacing:.14em;color:#b9a9ff;background:rgba(125,92,255,.14);border:1px solid rgba(125,92,255,.4);border-radius:999px;padding:1.4vw 4vw;}
   .h-head{font-size:11vw;font-weight:800;letter-spacing:-.03em;line-height:1;margin:5vw 0 0;}
-  .h-head .hw-word{color:#5a3fe0;font-style:italic;}
-  .caret{display:inline-block;width:.5vw;height:9vw;background:#5a3fe0;margin-left:1vw;vertical-align:-1.4vw;animation:blink 1s step-end infinite;}
+  .h-head .hw-word{color:#8b6bff;font-style:italic;}
+  .caret{display:inline-block;width:.5vw;height:9vw;background:#8b6bff;margin-left:1vw;vertical-align:-1.4vw;animation:blink 1s step-end infinite;}
   @keyframes blink{50%{opacity:0}}
-  .h-tower{width:48vw;max-width:360px;height:40vh;margin:4vw auto 0;}
-  .h-sub{font-size:3.4vw;color:#4a505c;line-height:1.5;max-width:82vw;margin:3vw auto 0;}
+  .h-tower{width:48vw;max-width:360px;height:40vh;margin:4vw auto 0;filter:drop-shadow(0 0 3vw rgba(125,92,255,.35));}
+  .h-sub{font-size:3.4vw;color:var(--muted);line-height:1.5;max-width:82vw;margin:3vw auto 0;}
 
   /* poster slide — a digital recreation of the elevator poster */
   #poster{--ink:#1b1b2b;--pu:#4a3bd0;--pmut:#6b6b7a;--cream:#f1efe8;
@@ -490,7 +493,9 @@ __SLIDES__
     var cols=home.querySelectorAll('.hx');function fill(){cols.forEach(function(c){c.textContent=hx(80);});}
     fill();setInterval(fill,1500);})();
   var order=__ORDER__,i=0,screens=document.querySelectorAll('.screen');
-  function show(){screens.forEach(function(s){s.classList.remove('on');});
+  function live(o){var t=Date.now();return (!o.until||t<o.until)&&(!o.since||t>=o.since);}
+  function show(){for(var n=0;n<order.length&&!live(order[i]);n++){i=(i+1)%order.length;}
+    screens.forEach(function(s){s.classList.remove('on');});
     document.getElementById(order[i].id).classList.add('on');
     setTimeout(function(){i=(i+1)%order.length;show();},order[i].ms);}
   show();
@@ -502,7 +507,7 @@ __SLIDES__
 # ---------------------------------------------------------------- build
 def build(conf):
     embed = conf.get("calendar_embed", "")
-    slides, order, evn = [], [], 0
+    slides, order, evn, until, since, ends = [], [], 0, {}, {}, {}   # ends: event url -> end ms
     for item in conf["rotation"]:
         t, ms = item["type"], int(item.get("ms", 15000))
         if t == "home":
@@ -547,10 +552,17 @@ def build(conf):
                  .replace("__WHEN_DATE__", f["when_date"]).replace("__WHEN_TIME__", f["when_time"])
                  .replace("__WHERE__", f["where"]).replace("__TAGWRAP__", tagwrap)
                  .replace("__HOST__", f["host"]).replace("__QR__", qr_svg(f["rsvp"])))
-            slides.append(s); order.append((eid, ms))
+            slides.append(s); order.append((eid, ms)); until[eid] = f["until"]
+            ends[item["url"]] = f["until"]
+            if item.get("after"):            # stay hidden until that (earlier-listed) event has ended
+                if item["after"] not in ends:
+                    sys.exit(f"error: 'after' must name an event listed earlier: {item['after']}")
+                since[eid] = ends[item["after"]]
         else:
             sys.stderr.write(f"  skipping unknown slide type: {t}\n")
-    order_js = "[" + ",".join(f'{{id:"{i}",ms:{m}}}' for i, m in order) + "]"
+    order_js = "[" + ",".join(f'{{id:"{i}",ms:{m}' + (f',until:{until[i]}' if i in until else '')
+                              + (f',since:{since[i]}' if i in since else '') + '}'
+                              for i, m in order) + "]"
     return (SHELL.replace("__CSS__", CSS)
                  .replace("__SLIDES__", "\n".join(slides))
                  .replace("__ORDER__", order_js))
