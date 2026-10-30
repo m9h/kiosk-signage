@@ -1,0 +1,21 @@
+{
+  "_comment": "FL14 PILOT rotation — adds an 'apply' slide and fully alternates event/non-event so no two event slides are ever adjacent. Build: scripts/build-kiosk.py --conf web/kiosk-cycle.fl14.conf.json --out web/kiosk-cycle.fl14.html",
+  "calendar_embed": "https://luma.com/embed/calendar/cal-Sl7q1nHTRXQzjP2/events?lt=dark",
+  "rotation": [
+    { "type": "home", "ms": 14000 },
+    { "type": "event", "ms": 16000,
+      "url": "https://luma.com/cypherpunk-society-inaugral-meeting",
+      "title": "Cypherpunk Society", "subtitle": "Inaugural Meeting",
+      "tagline": "A practitioner community for open-source digital self-defense, privacy tools, investigative literacy, and freedom bandwidth." },
+    { "type": "network", "ms": 14000 },
+    { "type": "event", "ms": 16000,
+      "url": "https://luma.com/san-francisco-cognitive-science-reading--9b7e",
+      "title": "SF CogSci #34", "subtitle": "Tapes Together Strong", "badge": "MEMBERS ONLY",
+      "tagline": "Reading & discussion: the co-evolution of computation and cooperation. A monthly cognitive-science salon." },
+    { "type": "stats", "ms": 13000 },
+    { "type": "event", "ms": 16000,
+      "url": "https://luma.com/xenobiology-could-life-have-evolved-via-" },
+    { "type": "citizen", "ms": 13000, "url": "https://frontiertower.io/apply" },
+    { "type": "calendar", "ms": 22000 }
+  ]
+}

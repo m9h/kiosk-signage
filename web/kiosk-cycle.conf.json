@@ -11,9 +11,9 @@
       "url": "https://luma.com/san-francisco-cognitive-science-reading--9b7e",
       "title": "SF CogSci #34", "subtitle": "Tapes Together Strong", "badge": "MEMBERS ONLY",
       "tagline": "Reading & discussion: the co-evolution of computation and cooperation. A monthly cognitive-science salon." },
+    { "type": "brand", "ms": 12000 },
     { "type": "event", "ms": 16000,
       "url": "https://luma.com/xenobiology-could-life-have-evolved-via-" },
-    { "type": "calendar", "ms": 22000 },
-    { "type": "brand", "ms": 12000 }
+    { "type": "calendar", "ms": 22000 }
   ]
 }
