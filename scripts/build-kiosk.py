@@ -250,6 +250,130 @@ NETWORK_TMPL = '''  <section class="screen" id="network">
     </div>
   </section>'''
 
+# Feature-slide art: one square illustration per Tower amenity, drawn inline so
+# the page needs no image hosting. Purple field, cream line work, gold accents.
+FEATURE_DEFS = """<defs>
+  <radialGradient id="fg-__K__" cx="50%" cy="38%" r="75%"><stop offset="0" stop-color="#7d5cff"/><stop offset=".55" stop-color="#4832c4"/><stop offset="1" stop-color="#1a1440"/></radialGradient>
+  <linearGradient id="fm-__K__" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f5ead1"/><stop offset="1" stop-color="#cdbf9a"/></linearGradient>
+</defs>
+<rect width="400" height="400" fill="url(#fg-__K__)"/>
+<g stroke="rgba(255,255,255,.07)" stroke-width="1">__GRID__</g>"""
+
+def feature_grid():
+    return "".join(f'<path d="M{x} 0V400M0 {x}H400"/>' for x in range(40, 400, 40))
+
+FEATURE_ART = {
+    "gym": """<g transform="translate(0 -18) rotate(-24 200 200)">
+  <rect x="96" y="186" width="208" height="28" rx="8" fill="url(#fm-__K__)"/>
+  <rect x="62" y="122" width="40" height="156" rx="12" fill="#e3b341"/>
+  <rect x="104" y="140" width="30" height="120" rx="10" fill="url(#fm-__K__)"/>
+  <rect x="298" y="122" width="40" height="156" rx="12" fill="#e3b341"/>
+  <rect x="266" y="140" width="30" height="120" rx="10" fill="url(#fm-__K__)"/>
+  <rect x="40" y="178" width="24" height="44" rx="6" fill="#cdbf9a"/>
+  <rect x="336" y="178" width="24" height="44" rx="6" fill="#cdbf9a"/>
+</g>
+<path d="M48 352h70l12-26 20 50 18-38 12 14h172" fill="none" stroke="#e2405a" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>""",
+    "podcast": """<g fill="none" stroke="#e3b341" stroke-width="10" stroke-linecap="round" opacity=".9">
+  <path d="M96 128a150 150 0 0 0 0 144"/><path d="M304 128a150 150 0 0 1 0 144"/>
+  <path d="M66 98a196 196 0 0 0 0 204" opacity=".55"/><path d="M334 98a196 196 0 0 1 0 204" opacity=".55"/>
+</g>
+<rect x="150" y="70" width="100" height="168" rx="50" fill="url(#fm-__K__)"/>
+<g stroke="#4832c4" stroke-width="6" stroke-linecap="round" opacity=".55">
+  <path d="M164 118h72M164 142h72M164 166h72M164 190h72"/>
+</g>
+<path d="M126 206a74 74 0 0 0 148 0" fill="none" stroke="url(#fm-__K__)" stroke-width="14" stroke-linecap="round"/>
+<rect x="192" y="278" width="16" height="44" fill="url(#fm-__K__)"/>
+<rect x="142" y="318" width="116" height="16" rx="8" fill="url(#fm-__K__)"/>
+<circle cx="292" cy="72" r="14" fill="#e2405a"/>""",
+    "pass": """<g transform="rotate(-8 200 200)">
+  <path d="M54 110h292a14 14 0 0 1 14 14v46a30 30 0 0 0 0 60v46a14 14 0 0 1-14 14H54a14 14 0 0 1-14-14v-46a30 30 0 0 0 0-60v-46a14 14 0 0 1 14-14z" fill="url(#fm-__K__)"/>
+  <path d="M246 120v160" stroke="#4832c4" stroke-width="4" stroke-dasharray="10 9" opacity=".5"/>
+  <text x="76" y="150" font-family="ui-monospace,Menlo,monospace" font-size="17" font-weight="700" letter-spacing="3" fill="#4832c4">GUEST</text>
+  <text x="76" y="188" font-family="Inter,system-ui,sans-serif" font-size="30" font-weight="800" fill="#0c0e14">DAY PASS</text>
+  <text x="76" y="268" font-family="ui-monospace,Menlo,monospace" font-size="19" font-weight="700" letter-spacing="2" fill="#4832c4">K7Q2-M9XA</text>
+  <g fill="#0c0e14">__QR__</g>
+</g>
+<circle cx="318" cy="318" r="44" fill="#3db39e"/>
+<path d="M298 318l14 14 26-28" fill="none" stroke="#fff" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>""",
+    "rocket": """<g fill="#f5ead1"><circle cx="70" cy="80" r="3"/><circle cx="330" cy="60" r="2.5"/><circle cx="96" cy="250" r="2"/><circle cx="350" cy="190" r="3"/><circle cx="58" cy="170" r="2"/><circle cx="300" cy="300" r="2"/></g>
+<g transform="rotate(35 200 200)">
+  <path d="M174 292q26 104 26 104q0 0 26-104z" fill="#e2405a"/>
+  <path d="M186 292q14 62 14 62q0 0 14-62z" fill="#e3b341"/>
+  <path d="M200 62c42 34 56 92 46 168l-14 70h-64l-14-70c-10-76 4-134 46-168z" fill="url(#fm-__K__)"/>
+  <path d="M154 226l-36 52 4 30 46-24zM246 226l36 52-4 30-46-24z" fill="#e3b341"/>
+  <path d="M200 62c18 14 30 32 38 54h-76c8-22 20-40 38-54z" fill="#e2405a"/>
+  <circle cx="200" cy="168" r="30" fill="#4832c4" stroke="#e3b341" stroke-width="7"/>
+  <text x="200" y="180" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-size="32" font-weight="800" letter-spacing="-2" fill="#fff">ft</text>
+</g>""",
+    "tap": """<rect x="232" y="70" width="96" height="236" rx="18" fill="#e9e6f2" stroke="#cdbf9a" stroke-width="5"/>
+<rect x="250" y="94" width="60" height="70" rx="8" fill="#0c0e14"/>
+<text x="280" y="136" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="16" font-weight="700" fill="#5fd3bc">OPEN</text>
+<circle cx="280" cy="214" r="26" fill="none" stroke="#4832c4" stroke-width="5" stroke-dasharray="8 7"/>
+<circle cx="280" cy="214" r="8" fill="#3db39e"/>
+<g fill="none" stroke="#e3b341" stroke-width="9" stroke-linecap="round">
+  <path d="M206 186a42 42 0 0 1 0 56"/><path d="M186 166a72 72 0 0 1 0 96" opacity=".7"/><path d="M166 146a102 102 0 0 1 0 136" opacity=".4"/>
+</g>
+<g transform="translate(-24 0) rotate(-14 110 250)">
+  <rect x="58" y="150" width="104" height="196" rx="20" fill="#0c0e14" stroke="url(#fm-__K__)" stroke-width="8"/>
+  <rect x="72" y="176" width="76" height="48" rx="7" fill="#1f6fe0"/>
+  <rect x="72" y="176" width="76" height="48" rx="7" fill="url(#fg-__K__)" opacity=".35"/>
+  <text x="110" y="206" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-size="15" font-weight="800" fill="#fff">ft PASS</text>
+  <rect x="72" y="236" width="76" height="10" rx="5" fill="#2a2440"/>
+  <rect x="72" y="254" width="52" height="10" rx="5" fill="#2a2440"/>
+</g>
+<circle cx="96" cy="86" r="30" fill="#3db39e"/>
+<path d="M82 86l10 10 18-20" fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>""",
+    "app": """<rect x="122" y="44" width="156" height="312" rx="28" fill="#0c0e14" stroke="url(#fm-__K__)" stroke-width="10"/>
+<rect x="176" y="58" width="48" height="10" rx="5" fill="#2a2440"/>
+<rect x="142" y="86" width="116" height="32" rx="8" fill="#7d5cff"/>
+<text x="200" y="108" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="16" font-weight="700" fill="#fff">BOOK</text>
+<g fill="#2a2440">__CAL__</g>
+<rect x="210" y="190" width="28" height="28" rx="6" fill="#e3b341"/>
+<path d="M216 204l7 7 12-14" fill="none" stroke="#0c0e14" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="142" y="300" width="116" height="34" rx="17" fill="#e3b341"/>
+<text x="200" y="323" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="15" font-weight="700" fill="#0c0e14">CONFIRM</text>
+<circle cx="316" cy="96" r="30" fill="#e2405a"/>
+<text x="316" y="106" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-size="28" font-weight="800" fill="#fff">3</text>""",
+}
+
+def feature_cal():
+    cells = []
+    for r in range(4):
+        for c in range(4):
+            x, y = 146 + c * 30, 130 + r * 30
+            if (c, r) != (2, 2):
+                cells.append(f'<rect x="{x}" y="{y}" width="22" height="22" rx="5"/>')
+    return "".join(cells)
+
+def feature_qr():
+    # A stand-in QR pattern (finder squares + fixed noise), not a real code.
+    cells, bits = [], 0x9A5C3E71B4
+    for r in range(7):
+        for c in range(7):
+            finder = (r < 2 and c < 2) or (r < 2 and c > 4) or (r > 4 and c < 2)
+            bits = (bits * 1103515245 + 12345) & 0x7FFFFFFF
+            if finder or (bits >> 16) & 1:
+                cells.append(f'<rect x="{262 + c * 8}" y="{172 + r * 8}" width="7.5" height="7.5"/>')
+    return "".join(cells)
+
+def feature_svg(kind, key):
+    art = FEATURE_ART[kind].replace("__CAL__", feature_cal()).replace("__QR__", feature_qr())
+    body = (FEATURE_DEFS + art).replace("__GRID__", feature_grid()).replace("__K__", key)
+    return f'<svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">{body}</svg>'
+
+FEATURE_TMPL = """  <section class="screen ft-feat ft-__ACCENT__" id="__ID__">
+    <div class="fx-eyebrow"><span class="live"></span>__EYEBROW__</div>
+    <div class="ff-art">__ART__</div>
+    <h1 class="fx-title">__TITLE____SUBWRAP__</h1>
+    <div class="fx-where">__WHERE__</div>
+    <div class="ff-lede">__LEDE__</div>
+    __POINTS__
+    <div class="fx-foot">
+      <div class="ff-url">__FOOT__</div>
+      __QRWRAP__
+    </div>
+  </section>"""
+
 CALENDAR_TMPL = '''  <section class="screen" id="calendar">
     <header class="ft-head">
       <div class="head-main">
@@ -349,6 +473,19 @@ CSS = r'''
   .fx-eyebrow .live{width:1.6vw;height:1.6vw;border-radius:50%;background:var(--crimson);box-shadow:0 0 0 0 rgba(226,64,90,.6);animation:pulse 2s infinite;}
   @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(226,64,90,.55)}70%{box-shadow:0 0 0 3vw rgba(226,64,90,0)}100%{box-shadow:0 0 0 0 rgba(226,64,90,0)}}
   .fx-cover{margin:4vw auto 0;width:62vw;max-width:520px;aspect-ratio:1/1;border-radius:3vw;background:#000 center/cover no-repeat;border:.4vw solid rgba(227,179,65,.45);box-shadow:0 0 0 .2vw rgba(0,0,0,.6),0 3vw 9vw rgba(0,0,0,.6),0 0 14vw rgba(227,179,65,.12);}
+  /* feature slides (Tower amenities): the event layout with drawn art */
+  .ft-feat{padding:6vw 6vw 5vw;--acc:var(--gold);--glow:rgba(227,179,65,.14);
+    background:radial-gradient(90vw 60vw at 50% 8%,var(--glow),transparent 62%),radial-gradient(70vw 50vw at 50% 100%,rgba(125,92,255,.16),transparent 60%),var(--bg);}
+  .ft-crimson{--acc:#ff6b81;--glow:rgba(226,64,90,.16);} .ft-purple{--acc:#b9a9ff;--glow:rgba(125,92,255,.22);} .ft-teal{--acc:#5fd3bc;--glow:rgba(61,179,158,.16);}
+  .ft-feat .fx-eyebrow{color:var(--acc);}
+  .ff-art{flex:0 0 auto;margin:3.4vw auto 0;width:60vw;max-width:660px;aspect-ratio:1/1;border-radius:3vw;overflow:hidden;border:.4vw solid rgba(227,179,65,.45);box-shadow:0 0 0 .2vw rgba(0,0,0,.6),0 3vw 9vw rgba(0,0,0,.6),0 0 14vw var(--glow);}
+  .ft-feat .fx-qr span{white-space:nowrap;}
+  .ff-art svg{display:block;width:100%;height:100%;}
+  .ff-lede{margin-top:3.4vw;font-size:3.9vw;line-height:1.35;color:var(--fg);max-width:86vw;font-weight:600;}
+  .ff-points{display:flex;flex-wrap:wrap;gap:1.6vw;margin-top:3.4vw;}
+  .ff-points span{font-family:var(--mono);font-size:2.5vw;letter-spacing:.03em;color:var(--acc);border:1.5px solid currentColor;border-radius:999px;padding:1vw 2.6vw;opacity:.92;}
+  .ff-url{min-width:0;overflow-wrap:anywhere;font-family:var(--mono);font-size:2.8vw;font-weight:700;letter-spacing:.02em;line-height:1.35;color:var(--gold-2);}
+  .ff-url small{display:block;font-size:2.3vw;font-weight:400;color:var(--muted);letter-spacing:.08em;margin-bottom:.6vw;}
   .fx-title{margin:5vw 0 0;font-size:8.6vw;font-weight:800;line-height:.98;letter-spacing:-.02em;}
   .fx-title .sub{display:block;font-size:5.4vw;color:var(--cream);font-weight:700;margin-top:1.2vw;}
   .fx-badge{display:inline-block;margin-top:3vw;font-family:var(--mono);font-size:2.6vw;font-weight:700;letter-spacing:.1em;color:var(--bg);background:var(--gold);border-radius:999px;padding:1vw 3vw;}
@@ -547,6 +684,21 @@ def build(conf):
             s = (CALENDAR_TMPL.replace("__CALQR__", qr_svg("https://luma.com/frontiertower"))
                               .replace("__EMBED__", embed))
             slides.append(s); order.append(("calendar", ms))
+        elif t == "feature":
+            fid = item["id"]
+            subwrap = f'<span class="sub">{item["subtitle"]}</span>' if item.get("subtitle") else ""
+            pts = item.get("points") or []
+            points = ('<div class="ff-points">' + "".join(f"<span>{p}</span>" for p in pts) + "</div>") if pts else ""
+            qrwrap = (f'<div class="fx-qr">{qr_svg(item["qr"])}<span>{item.get("qr_label", "SCAN ME")}</span></div>'
+                      if item.get("qr") else "")
+            s = (FEATURE_TMPL.replace("__ID__", fid).replace("__ACCENT__", item.get("accent", "gold"))
+                 .replace("__EYEBROW__", item.get("eyebrow", "Tower feature · Frontier Tower SF"))
+                 .replace("__ART__", feature_svg(item["icon"], fid))
+                 .replace("__TITLE__", item["title"]).replace("__SUBWRAP__", subwrap)
+                 .replace("__WHERE__", item.get("where", "")).replace("__LEDE__", item.get("lede", ""))
+                 .replace("__POINTS__", points).replace("__FOOT__", item.get("foot", ""))
+                 .replace("__QRWRAP__", qrwrap))
+            slides.append(s); order.append((fid, ms))
         elif t == "event":
             evn += 1; eid = f"evt{evn}"
             sys.stderr.write(f"  fetching {item['url']} ...\n")

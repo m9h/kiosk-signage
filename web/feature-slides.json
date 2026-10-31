@@ -1,0 +1,121 @@
+{
+  "_comment": "Drafted 'feature' slides (Tower amenities). Copy an entry into kiosk-cycle.conf.json's rotation to show it.",
+  "features": [
+    {
+      "type": "feature",
+      "id": "gym",
+      "icon": "gym",
+      "accent": "crimson",
+      "ms": 13000,
+      "eyebrow": "Tower feature · Fitness",
+      "title": "The Gym",
+      "subtitle": "Train without leaving the tower.",
+      "where": "<b>3rd Floor</b> · Annex",
+      "lede": "Lift before standup. Sweat after demo day. Reset between deep-work sprints.",
+      "points": [
+        "Citizen perk",
+        "Steps from your desk"
+      ],
+      "foot": "<small>FIND IT</small>Elevator ▸ 3 ▸ Annex"
+    },
+    {
+      "type": "feature",
+      "id": "podcast",
+      "icon": "podcast",
+      "accent": "gold",
+      "ms": 13000,
+      "eyebrow": "Tower feature · Studio",
+      "title": "Podcast Studio",
+      "subtitle": "Your show starts on 4.",
+      "where": "<b>4th Floor</b> · Corner Office",
+      "lede": "Record interviews, launch episodes and demo-day stories in a dedicated room.",
+      "points": [
+        "Seats 4",
+        "Citizen perk",
+        "Book in the FT App"
+      ],
+      "foot": "<small>BOOK IT IN THE FT APP</small>app.frontiertower.io",
+      "qr": "https://app.frontiertower.io",
+      "qr_label": "SCAN TO BOOK"
+    },
+    {
+      "type": "feature",
+      "id": "ftapp",
+      "icon": "app",
+      "accent": "purple",
+      "ms": 13000,
+      "eyebrow": "Tower feature · The FT App",
+      "title": "Book a room",
+      "subtitle": "Right from your phone.",
+      "where": "<b>app.frontiertower.io</b>",
+      "lede": "Grab a conference room, a breakout room or the podcast studio in a few taps.",
+      "points": [
+        "2F Conference A–D",
+        "16F Breakouts",
+        "Podcast Room"
+      ],
+      "foot": "<small>OPEN ON YOUR PHONE</small>app.frontiertower.io",
+      "qr": "https://app.frontiertower.io",
+      "qr_label": "SCAN TO OPEN"
+    },
+    {
+      "type": "feature",
+      "id": "guestpass",
+      "icon": "pass",
+      "accent": "teal",
+      "ms": 13000,
+      "eyebrow": "Tower feature · Guest passes",
+      "title": "Invite a guest",
+      "subtitle": "Day passes, sent from the FT App.",
+      "where": "<b>app.frontiertower.io</b> · Invite a Guest",
+      "lede": "Your guest gets a QR day pass by email, checks in at the front-desk kiosk, and you're notified when they arrive.",
+      "points": [
+        "3 guests a month",
+        "3 visits each",
+        "QR + backup code"
+      ],
+      "foot": "<small>INVITE A GUEST</small>app.frontiertower.io/guests",
+      "qr": "https://app.frontiertower.io/guests",
+      "qr_label": "SCAN TO INVITE"
+    },
+    {
+      "type": "feature",
+      "id": "onboarding",
+      "icon": "rocket",
+      "accent": "purple",
+      "ms": 13000,
+      "eyebrow": "New citizens · Start here",
+      "title": "New here?",
+      "subtitle": "Get ready for take off.",
+      "where": "<b>app.frontiertower.io</b> · Begin Onboarding",
+      "lede": "An invite-only space for hackers, makers and doers. We'll connect you with the right people and grant you access.",
+      "points": [
+        "Meet the right people",
+        "Get your access"
+      ],
+      "foot": "<small>BEGIN ONBOARDING</small>app.frontiertower.io/onboarding",
+      "qr": "https://app.frontiertower.io/onboarding",
+      "qr_label": "SCAN TO START"
+    },
+    {
+      "type": "feature",
+      "id": "touchpass",
+      "icon": "tap",
+      "accent": "gold",
+      "ms": 13000,
+      "eyebrow": "Tower feature · Door access",
+      "title": "Tap your phone",
+      "subtitle": "Your Touch Pass opens the doors.",
+      "where": "<b>UniFi Identity</b> · Apple or Google Wallet",
+      "lede": "Activate it from the UniFi email, verify in the UniFi Identity app, and add it to your wallet.",
+      "points": [
+        "Email within 24 h",
+        "6-digit verify",
+        "Tap to enter"
+      ],
+      "foot": "<small>STEP-BY-STEP IN ONBOARDING</small>app.frontiertower.io/onboarding",
+      "qr": "https://app.frontiertower.io/onboarding",
+      "qr_label": "SCAN TO SET UP"
+    }
+  ]
+}
