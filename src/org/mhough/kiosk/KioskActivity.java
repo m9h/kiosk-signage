@@ -1,16 +1,20 @@
 package org.mhough.kiosk;
 
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.SystemClock;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.webkit.WebResourceError;
+import android.webkit.RenderProcessGoneDetail;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -20,7 +24,11 @@ import android.webkit.WebViewClient;
  * One full-screen WebView on one URL. Reloads every RELOAD_MS so new content
  * appears, retries RETRY_MS after a failed main-frame load, keeps the screen on.
  * Back is swallowed, except that EXIT_PRESSES presses within EXIT_WINDOW_MS
- * leave the kiosk (the Fire TV phone app cannot hold a key); Home leaves too.
+ * leave the kiosk (the Fire TV phone app cannot hold a key) until the next boot.
+ * Anything else that covers it (Home, the Fire TV launcher on the 1 GB sticks)
+ * only lasts WATCHDOG_MS: an exact alarm set in onStop brings it back, and the
+ * alarm survives the process being killed. A dead WebView renderer recreates
+ * the activity instead of taking the app down.
  *
  * Change the URL without rebuilding:
  *   adb shell am start -n org.mhough.kiosk/.KioskActivity --es url https://example.org
@@ -33,6 +41,7 @@ public class KioskActivity extends Activity {
     private static final int EXIT_PRESSES = 3;
     private static final long EXIT_WINDOW_MS = 2 * 1000L;
     private static final int DEFAULT_ROTATION = 270;
+    private static final long WATCHDOG_MS = 2 * 60 * 1000L;
 
     private final Handler handler = new Handler(Looper.getMainLooper());
     private WebView web;
@@ -69,6 +78,12 @@ public class KioskActivity extends Activity {
                     handler.removeCallbacks(reload);
                     handler.postDelayed(reload, RETRY_MS);
                 }
+            }
+
+            @Override
+            public boolean onRenderProcessGone(WebView view, RenderProcessGoneDetail detail) {
+                recreate();
+                return true;
             }
         });
         frame = new RotatedFrame(this);
@@ -134,6 +149,32 @@ public class KioskActivity extends Activity {
             return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        alarms().cancel(watchdog());
+    }
+
+    @Override
+    protected void onStop() {
+        if (!isFinishing()) {
+            alarms().setExactAndAllowWhileIdle(AlarmManager.ELAPSED_REALTIME_WAKEUP,
+                    SystemClock.elapsedRealtime() + WATCHDOG_MS, watchdog());
+        }
+        super.onStop();
+    }
+
+    private AlarmManager alarms() {
+        return (AlarmManager) getSystemService(ALARM_SERVICE);
+    }
+
+    private PendingIntent watchdog() {
+        Intent start = new Intent(this, KioskActivity.class);
+        start.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        return PendingIntent.getActivity(this, 1, start,
+                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
     }
 
     @Override

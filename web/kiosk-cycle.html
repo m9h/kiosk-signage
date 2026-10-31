@@ -288,7 +288,7 @@
       </div>
       <div class="qr-card"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 33 33" shape-rendering="crispEdges"><rect width="33" height="33" fill="#fff"/><path class="qrline" stroke="#0c0e14" d="M2 2.5h7m2 0h3m2 0h4m4 0h7m-29 1h1m5 0h1m2 0h1m1 0h1m1 0h1m2 0h1m2 0h1m2 0h1m5 0h1m-29 1h1m1 0h3m1 0h1m1 0h1m4 0h1m3 0h4m1 0h1m1 0h3m1 0h1m-29 1h1m1 0h3m1 0h1m4 0h2m1 0h1m1 0h1m1 0h2m2 0h1m1 0h3m1 0h1m-29 1h1m1 0h3m1 0h1m1 0h3m1 0h2m2 0h1m1 0h1m3 0h1m1 0h3m1 0h1m-29 1h1m5 0h1m1 0h1m1 0h2m1 0h5m1 0h1m2 0h1m5 0h1m-29 1h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7m-18 1h1m2 0h1m1 0h3m1 0h1m-20 1h1m2 0h1m1 0h1m1 0h1m2 0h2m1 0h2m1 0h1m1 0h3m1 0h2m1 0h1m-25 1h1m1 0h1m2 0h4m1 0h1m2 0h2m1 0h1m3 0h3m1 0h3m-29 1h1m1 0h1m1 0h3m2 0h2m2 0h2m2 0h1m3 0h1m1 0h1m2 0h1m1 0h1m-29 1h3m1 0h2m2 0h1m2 0h3m1 0h1m1 0h2m1 0h2m3 0h1m1 0h2m-26 1h1m1 0h4m1 0h1m1 0h1m1 0h1m1 0h4m3 0h1m4 0h1m-29 1h3m6 0h2m3 0h3m1 0h1m3 0h1m1 0h1m1 0h1m1 0h1m-24 1h4m1 0h1m1 0h1m1 0h1m1 0h3m2 0h1m2 0h1m3 0h1m-26 1h3m1 0h1m2 0h4m2 0h3m1 0h1m1 0h2m1 0h1m-26 1h3m2 0h2m1 0h2m1 0h1m2 0h1m2 0h1m3 0h1m1 0h1m3 0h2m-29 1h2m1 0h3m1 0h2m1 0h2m2 0h1m1 0h2m4 0h5m1 0h1m-23 1h2m1 0h1m1 0h2m3 0h1m1 0h1m4 0h2m1 0h1m1 0h1m-27 1h1m1 0h2m1 0h1m1 0h2m1 0h3m2 0h1m1 0h1m4 0h2m1 0h1m-28 1h2m1 0h2m1 0h3m1 0h1m2 0h1m1 0h1m1 0h1m1 0h7m1 0h2m-21 1h1m1 0h1m2 0h4m1 0h3m3 0h1m1 0h1m1 0h1m-29 1h7m2 0h1m1 0h5m3 0h2m1 0h1m1 0h1m2 0h2m-29 1h1m5 0h1m3 0h4m3 0h1m1 0h2m3 0h2m2 0h1m-29 1h1m1 0h3m1 0h1m1 0h4m1 0h3m2 0h7m2 0h2m-29 1h1m1 0h3m1 0h1m2 0h3m6 0h1m4 0h1m3 0h1m-28 1h1m1 0h3m1 0h1m2 0h1m3 0h1m1 0h2m2 0h3m3 0h4m-29 1h1m5 0h1m1 0h3m1 0h2m1 0h6m1 0h2m1 0h1m1 0h2m-29 1h7m2 0h4m4 0h1m2 0h2m2 0h2m1 0h1"/></svg><span>Scan for events</span></div>
     </header>
-    <iframe class="cal" title="Frontier Tower events" src="https://luma.com/embed/calendar/cal-Sl7q1nHTRXQzjP2/events?lt=dark" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    <iframe class="cal" title="Frontier Tower events" src="about:blank" data-src="https://luma.com/embed/calendar/cal-Sl7q1nHTRXQzjP2/events?lt=dark" referrerpolicy="no-referrer-when-downgrade"></iframe>
   </section>
 <script>
   (function(){var el=document.getElementById('clock');if(!el)return;
@@ -296,15 +296,23 @@
     t();setInterval(t,15000);})();
   (function(){var home=document.getElementById('home');if(!home)return;
     var words=['built','shipped','scaled','funded','alive'],w=home.querySelector('.hw-word'),i=0;
-    setInterval(function(){i=(i+1)%words.length;w.textContent=words[i];},2200);
+    function on(){return home.classList.contains('on');}
+    setInterval(function(){if(!on())return;i=(i+1)%words.length;w.textContent=words[i];},2200);
     function hx(n){var s='',h='0123456789ABCDEF';for(var k=0;k<n;k++){s+=h[Math.floor(Math.random()*16)]+((k%3===2)?'\n':' ');}return s;}
     var cols=home.querySelectorAll('.hx');function fill(){cols.forEach(function(c){c.textContent=hx(80);});}
-    fill();setInterval(fill,1500);})();
+    fill();setInterval(function(){if(on())fill();},1500);})();
   var order=[{id:"home",ms:14000},{id:"evt1",ms:16000,until:1793941200000},{id:"network",ms:14000},{id:"evt2",ms:16000,until:1793768400000},{id:"stats",ms:13000},{id:"evt3",ms:16000,until:1793417400000},{id:"evt4",ms:16000,until:1793660400000,since:1793417400000},{id:"citizen",ms:13000},{id:"momentum",ms:14000},{id:"calendar",ms:22000}],i=0,screens=document.querySelectorAll('.screen');
   function live(o){var t=Date.now();return (!o.until||t<o.until)&&(!o.since||t>=o.since);}
+  function nextLive(k){for(var n=0;n<order.length;n++){k=(k+1)%order.length;if(live(order[k]))return k;}return k;}
+  // An embedded page (the Luma calendar) is loaded one slide ahead of its own
+  // and blanked once it has played, so it is not held in memory all loop long.
+  function frames(cur,nxt){document.querySelectorAll('iframe[data-src]').forEach(function(f){
+    var id=f.closest('.screen').id,want=(id===cur||id===nxt)?f.getAttribute('data-src'):'about:blank';
+    if(f.getAttribute('src')!==want)f.setAttribute('src',want);});}
   function show(){for(var n=0;n<order.length&&!live(order[i]);n++){i=(i+1)%order.length;}
     screens.forEach(function(s){s.classList.remove('on');});
     document.getElementById(order[i].id).classList.add('on');
+    frames(order[i].id,order[nextLive(i)].id);
     setTimeout(function(){i=(i+1)%order.length;show();},order[i].ms);}
   show();
 </script>

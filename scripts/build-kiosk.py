@@ -259,7 +259,7 @@ CALENDAR_TMPL = '''  <section class="screen" id="calendar">
       </div>
       <div class="qr-card">__CALQR__<span>Scan for events</span></div>
     </header>
-    <iframe class="cal" title="Frontier Tower events" src="__EMBED__" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    <iframe class="cal" title="Frontier Tower events" src="about:blank" data-src="__EMBED__" referrerpolicy="no-referrer-when-downgrade"></iframe>
   </section>'''
 
 BRAND_TMPL = '''  <section class="screen" id="brand">
@@ -488,15 +488,23 @@ __SLIDES__
     t();setInterval(t,15000);})();
   (function(){var home=document.getElementById('home');if(!home)return;
     var words=['built','shipped','scaled','funded','alive'],w=home.querySelector('.hw-word'),i=0;
-    setInterval(function(){i=(i+1)%words.length;w.textContent=words[i];},2200);
+    function on(){return home.classList.contains('on');}
+    setInterval(function(){if(!on())return;i=(i+1)%words.length;w.textContent=words[i];},2200);
     function hx(n){var s='',h='0123456789ABCDEF';for(var k=0;k<n;k++){s+=h[Math.floor(Math.random()*16)]+((k%3===2)?'\\n':' ');}return s;}
     var cols=home.querySelectorAll('.hx');function fill(){cols.forEach(function(c){c.textContent=hx(80);});}
-    fill();setInterval(fill,1500);})();
+    fill();setInterval(function(){if(on())fill();},1500);})();
   var order=__ORDER__,i=0,screens=document.querySelectorAll('.screen');
   function live(o){var t=Date.now();return (!o.until||t<o.until)&&(!o.since||t>=o.since);}
+  function nextLive(k){for(var n=0;n<order.length;n++){k=(k+1)%order.length;if(live(order[k]))return k;}return k;}
+  // An embedded page (the Luma calendar) is loaded one slide ahead of its own
+  // and blanked once it has played, so it is not held in memory all loop long.
+  function frames(cur,nxt){document.querySelectorAll('iframe[data-src]').forEach(function(f){
+    var id=f.closest('.screen').id,want=(id===cur||id===nxt)?f.getAttribute('data-src'):'about:blank';
+    if(f.getAttribute('src')!==want)f.setAttribute('src',want);});}
   function show(){for(var n=0;n<order.length&&!live(order[i]);n++){i=(i+1)%order.length;}
     screens.forEach(function(s){s.classList.remove('on');});
     document.getElementById(order[i].id).classList.add('on');
+    frames(order[i].id,order[nextLive(i)].id);
     setTimeout(function(){i=(i+1)%order.length;show();},order[i].ms);}
   show();
 </script>

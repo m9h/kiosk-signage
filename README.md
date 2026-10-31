@@ -14,7 +14,15 @@ retries 30 s after a failed load. It starts ~5 min after boot (a 3-min exact
 alarm after Fire OS's late `BOOT_COMPLETED`, so it never covers the "Allow USB
 debugging?" prompt) and **persists the last URL**, so a rebooted stick comes back
 to whatever page it was showing. A single Back does nothing; **Back 3× within 2 s
-leaves the kiosk**; Home leaves it too.
+leaves the kiosk** until the next boot or `am start`. Anything else that covers it
+(Home, or Fire OS bringing its launcher forward on the 1 GB sticks) is undone by a
+**watchdog**: the kiosk returns to the front after 2 min. If the WebView's renderer
+dies, the kiosk recreates itself instead of exiting.
+
+The rotation page loads the Luma calendar embed only during the slide before
+the calendar and the calendar slide itself, and blanks it afterwards; the home
+slide's animations pause while it is hidden. Both keep memory down on the 1 GB
+sticks.
 
 ## The slide rotation
 
