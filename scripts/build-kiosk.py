@@ -91,6 +91,7 @@ def event_fields(url, data, ov):
     addr = (ev.get("geo_address_info") or {}).get("address", "")
     venue = addr.split("@", 1)[1] if "@" in addr else addr
     venue = re.split(r"\s*995\s*Market", venue)[0].strip().rstrip(",").strip()
+    venue = ov.get("venue", venue)
     where = (f"<b>{esc(venue)}</b> · 995 Market St, San Francisco" if venue
              else "<b>Frontier Tower</b> · 995 Market St, San Francisco")
 
@@ -103,6 +104,46 @@ def event_fields(url, data, ov):
     return dict(title=esc(title), subtitle=esc(subtitle), badge=esc(badge),
                 when_date=esc(when_date), when_time=esc(when_time), where=where,
                 host=host, cover=cover, tagline=esc(ov.get("tagline", "")), rsvp=url, until=until)
+
+
+# ---------------------------------------------------------------- calendar list
+CAL_SKIP = [r"placeholder", r"^\s*TBA\b"]   # Luma venue holds, not real events
+
+def fetch_calendar(url):
+    req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (kiosk-builder)"})
+    html = urllib.request.urlopen(req, timeout=30).read().decode("utf-8", "replace")
+    m = re.search(r'<script id="__NEXT_DATA__" type="application/json">(.*?)</script>', html, re.S)
+    if not m:
+        raise RuntimeError(f"no __NEXT_DATA__ in {url}")
+    return json.loads(m.group(1))["props"]["pageProps"]["initialData"]["data"].get("featured_items", [])
+
+def calendar_rows(items, skip):
+    pats = [re.compile(x, re.I) for x in skip]
+    rows, seen = [], set()
+    for it in sorted(items, key=lambda i: i["event"]["start_at"]):
+        ev = it["event"]
+        name = re.sub(r"\s+", " ", ev["name"]).strip()
+        if any(p.search(name) for p in pats):
+            sys.stderr.write(f"  calendar: skipping {name}\n"); continue
+        if ev["api_id"] in seen: continue
+        seen.add(ev["api_id"])
+        mb = re.search(r"\s[–|-]\s*((?:Members|Citizens|Open Registration).*?)\s*$", name, re.I)
+        title = name[:mb.start()].strip() if mb else name
+        tier = re.sub(r"(\s*-\s*Members Only)+$", " - Members Only", mb.group(1)).upper() if mb else ""
+        tier = re.sub(r"\s*-\s*", " ", tier).strip()
+        tz = ZoneInfo(ev.get("timezone") or "America/Los_Angeles")
+        st = datetime.fromisoformat(ev["start_at"].replace("Z", "+00:00")).astimezone(tz)
+        en = (datetime.fromisoformat(ev["end_at"].replace("Z", "+00:00")) if ev.get("end_at")
+              else st + timedelta(hours=3))
+        cover = transform_cover(ev.get("cover_url", ""), 200)
+        rows.append(
+            f'<li data-end="{int(en.timestamp()*1000)}">'
+            f'<div class="cl-date"><b>{st.strftime("%b").upper()}</b><span>{st.day}</span><i>{st.strftime("%a").upper()}</i></div>'
+            f'<div class="cl-main"><div class="cl-title">{esc(title)}</div>'
+            f'<div class="cl-meta"><span>{st.strftime("%-I:%M %p")}</span>'
+            + (f'<em>{esc(tier)}</em>' if tier else "") + '</div></div>'
+            + (f'<img class="cl-cover" src="{cover}" alt="">' if cover else "") + '</li>')
+    return "\n      ".join(rows)
 
 
 # ---------------------------------------------------------------- tower svg
@@ -263,6 +304,36 @@ def feature_grid():
     return "".join(f'<path d="M{x} 0V400M0 {x}H400"/>' for x in range(40, 400, 40))
 
 FEATURE_ART = {
+    "office": """<rect x="30" y="310" width="340" height="10" rx="5" fill="#1a1440" opacity=".55"/>
+<rect x="96" y="44" width="208" height="270" rx="10" fill="#0c0e14" stroke="url(#fm-__K__)" stroke-width="8"/>
+<rect x="110" y="58" width="180" height="252" rx="4" fill="#241a63"/>
+<rect x="110" y="236" width="180" height="74" fill="#1a1440"/>
+<rect x="128" y="76" width="64" height="52" rx="4" fill="#3b2c9a"/><path d="M160 76v52M128 102h64" stroke="#5a48c8" stroke-width="3"/>
+<g>
+  <rect x="150" y="168" width="70" height="46" rx="5" fill="#0c0e14" stroke="#cdbf9a" stroke-width="4"/>
+  <rect x="156" y="174" width="58" height="34" rx="2" fill="#7d5cff"/>
+  <path d="M162 186h30M162 196h22" stroke="#f5ead1" stroke-width="3" stroke-linecap="round" opacity=".8"/>
+  <rect x="179" y="214" width="12" height="12" fill="#cdbf9a"/>
+  <rect x="130" y="226" width="130" height="10" rx="3" fill="url(#fm-__K__)"/>
+  <rect x="138" y="236" width="8" height="58" fill="#cdbf9a"/><rect x="244" y="236" width="8" height="58" fill="#cdbf9a"/>
+  <rect x="226" y="218" width="12" height="8" rx="2" fill="#e3b341"/>
+</g>
+<g>
+  <rect x="236" y="186" width="34" height="50" rx="9" fill="#e3b341"/>
+  <rect x="226" y="240" width="52" height="11" rx="5" fill="#e3b341"/>
+  <rect x="249" y="251" width="6" height="26" fill="#cdbf9a"/>
+  <path d="M232 292l20-15 20 15" fill="none" stroke="#cdbf9a" stroke-width="5" stroke-linecap="round"/>
+</g>
+<rect x="110" y="58" width="180" height="252" rx="4" fill="#ffffff" opacity=".08"/>
+<g fill="#ffffff" opacity=".16"><path d="M196 58h34l-90 252h-30z"/><path d="M246 58h14l-90 252h-14z"/></g>
+<rect x="110" y="138" width="180" height="20" fill="#ffffff" opacity=".22"/>
+<text x="200" y="153" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="13" font-weight="700" letter-spacing="2" fill="#f5ead1">SUITE 3</text>
+<rect x="116" y="170" width="8" height="60" rx="4" fill="#f5ead1"/>
+<g fill="#3db39e"><path d="M50 310c-2-30 4-52 14-66 6 18 8 42 6 66z"/><path d="M58 310c-14-20-22-38-22-56 14 8 26 28 30 56z" opacity=".8"/><path d="M62 310c6-24 18-40 32-48-2 20-12 36-26 48z" opacity=".9"/></g>
+<rect x="44" y="296" width="32" height="18" rx="3" fill="#cdbf9a"/>
+<circle cx="336" cy="84" r="34" fill="#3db39e"/>
+<text x="336" y="82" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-size="20" font-weight="800" fill="#fff">1–10</text>
+<text x="336" y="100" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-size="11" font-weight="700" letter-spacing="1" fill="#fff">DESKS</text>""",
     "gym": """<g transform="translate(0 -18) rotate(-24 200 200)">
   <rect x="96" y="186" width="208" height="28" rx="8" fill="url(#fm-__K__)"/>
   <rect x="62" y="122" width="40" height="156" rx="12" fill="#e3b341"/>
@@ -383,7 +454,7 @@ CALENDAR_TMPL = '''  <section class="screen" id="calendar">
       </div>
       <div class="qr-card">__CALQR__<span>Scan for events</span></div>
     </header>
-    <iframe class="cal" title="Frontier Tower events" src="about:blank" data-src="__EMBED__" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    __CALBODY__
   </section>'''
 
 BRAND_TMPL = '''  <section class="screen" id="brand">
@@ -456,6 +527,18 @@ CSS = r'''
   .qr-card svg{width:15vw;max-width:168px;height:auto;display:block;}
   .qr-card span{color:#3a2b6b;font-size:1.9vw;font-weight:700;letter-spacing:.02em;}
   .cal{flex:1 1 auto;border:0;width:100%;background:var(--bg);}
+  .cl{flex:1 1 auto;list-style:none;margin:0;padding:2.4vw 3vw;display:flex;flex-direction:column;gap:1.6vw;overflow:hidden;}
+  .cl li{display:flex;align-items:center;gap:2.6vw;background:#151925;border:1px solid rgba(255,255,255,.06);border-radius:2vw;padding:1.8vw 2vw;}
+  .cl li.gone{display:none;}
+  .cl-date{flex:0 0 11vw;display:flex;flex-direction:column;align-items:center;line-height:1;border-right:1px solid rgba(255,255,255,.1);padding-right:2.4vw;}
+  .cl-date b{font-size:2.3vw;color:#b9a9ff;letter-spacing:.06em;}
+  .cl-date span{font-size:6vw;font-weight:800;margin:.5vw 0;}
+  .cl-date i{font-style:normal;font-family:var(--mono);font-size:1.9vw;color:var(--muted);}
+  .cl-main{flex:1 1 auto;min-width:0;}
+  .cl-title{font-size:3.3vw;font-weight:700;line-height:1.18;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+  .cl-meta{display:flex;align-items:center;gap:2vw;margin-top:1vw;font-family:var(--mono);font-size:2.2vw;color:var(--muted);}
+  .cl-meta em{font-style:normal;color:var(--gold-2);border:1px solid currentColor;border-radius:999px;padding:.2vw 1.6vw;font-size:1.8vw;letter-spacing:.04em;}
+  .cl-cover{flex:0 0 auto;width:13vw;height:13vw;border-radius:1.4vw;object-fit:cover;background:#222;}
 
   /* brand slide */
   #brand{align-items:center;justify-content:center;text-align:center;padding:8vw 7vw;background:radial-gradient(120vw 70vw at 50% -10%,rgba(125,92,255,.18),transparent 60%),var(--bg);}
@@ -638,7 +721,9 @@ __SLIDES__
   function frames(cur,nxt){document.querySelectorAll('iframe[data-src]').forEach(function(f){
     var id=f.closest('.screen').id,want=(id===cur||id===nxt)?f.getAttribute('data-src'):'about:blank';
     if(f.getAttribute('src')!==want)f.setAttribute('src',want);});}
-  function show(){for(var n=0;n<order.length&&!live(order[i]);n++){i=(i+1)%order.length;}
+  function prune(){document.querySelectorAll('.cl').forEach(function(ul){var t=Date.now(),k=0,max=+ul.getAttribute('data-max')||8;
+    ul.querySelectorAll('li').forEach(function(li){var keep=+li.getAttribute('data-end')>t&&k<max;if(keep)k++;li.classList.toggle('gone',!keep);});});}
+  function show(){for(var n=0;n<order.length&&!live(order[i]);n++){i=(i+1)%order.length;}prune();
     screens.forEach(function(s){s.classList.remove('on');});
     document.getElementById(order[i].id).classList.add('on');
     frames(order[i].id,order[nextLive(i)].id);
@@ -681,8 +766,16 @@ def build(conf):
                           .replace("__SRC__", item["url"]).replace("__BG__", item.get("bg", "#f1efe8")))
             order.append((iid, ms))
         elif t == "calendar":
+            if item.get("native", True):     # our own list, so Luma venue placeholders can be dropped
+                sys.stderr.write("  fetching calendar ...\n")
+                rows = calendar_rows(fetch_calendar(item.get("url", "https://luma.com/frontiertower")),
+                                     item.get("skip", CAL_SKIP))
+                body = f'<ul class="cl" data-max="{int(item.get("max", 8))}">\n      {rows}\n    </ul>'
+            else:                            # Luma's live embed (shows everything, placeholders too)
+                body = (f'<iframe class="cal" title="Frontier Tower events" src="about:blank" data-src="{embed}" '
+                        'referrerpolicy="no-referrer-when-downgrade"></iframe>')
             s = (CALENDAR_TMPL.replace("__CALQR__", qr_svg("https://luma.com/frontiertower"))
-                              .replace("__EMBED__", embed))
+                              .replace("__CALBODY__", body))
             slides.append(s); order.append(("calendar", ms))
         elif t == "feature":
             fid = item["id"]

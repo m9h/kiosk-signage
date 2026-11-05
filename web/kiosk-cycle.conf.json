@@ -1,5 +1,5 @@
 {
-  "_comment": "Kiosk rotation. Edit this list, then run scripts/build-kiosk.py (or scripts/push-cycle.sh <ip...>). Slide types: home | event | network | stats | citizen | momentum | feature | brand | poster | image | calendar. For an event, 'url' is the only required field; everything else is pulled from Luma, and the slide drops out of rotation by itself once the event ends. Optional per-event overrides: title, subtitle, badge, tagline, cover. 'after': <url of an event listed earlier> keeps a slide hidden until that event has ended (use it to queue a replacement in the same slot). 'ms' is dwell time in milliseconds. Keep event slides apart so no two play back to back.",
+  "_comment": "Kiosk rotation. Edit this list, then run scripts/build-kiosk.py (or scripts/push-cycle.sh <ip...>). Slide types: home | event | network | stats | citizen | momentum | feature | brand | poster | image | calendar. For an event, 'url' is the only required field; everything else is pulled from Luma, and the slide drops out of rotation by itself once the event ends. Optional per-event overrides: title, subtitle, badge, tagline, cover, venue. 'after': <url of an event listed earlier> keeps a slide hidden until that event has ended (use it to queue a replacement in the same slot). 'ms' is dwell time in milliseconds. Keep event slides apart so no two play back to back.",
   "calendar_embed": "https://luma.com/embed/calendar/cal-Sl7q1nHTRXQzjP2/events?lt=dark",
   "rotation": [
     {
@@ -9,10 +9,10 @@
     {
       "type": "event",
       "ms": 16000,
-      "url": "https://luma.com/cypherpunk-society-inaugral-meeting",
-      "title": "Cypherpunk Society",
-      "subtitle": "Inaugural Meeting",
-      "tagline": "A practitioner community for open-source digital self-defense, privacy tools, investigative literacy, and freedom bandwidth."
+      "url": "https://luma.com/korean-ai-startup-demo-day",
+      "title": "Korean AI Startup",
+      "subtitle": "Demo Day",
+      "badge": "OPEN TO ALL"
     },
     {
       "type": "feature",
@@ -35,17 +35,12 @@
       "qr_label": "SCAN TO SET UP"
     },
     {
-      "type": "network",
-      "ms": 14000
-    },
-    {
       "type": "event",
       "ms": 16000,
-      "url": "https://luma.com/san-francisco-cognitive-science-reading--9b7e",
-      "title": "SF CogSci #34",
-      "subtitle": "Tapes Together Strong",
-      "badge": "MEMBERS ONLY",
-      "tagline": "Reading & discussion: the co-evolution of computation and cooperation. A monthly cognitive-science salon."
+      "url": "https://luma.com/cypherpunk-society-inaugral-meeting",
+      "title": "Cypherpunk Society",
+      "subtitle": "Inaugural Meeting",
+      "tagline": "A practitioner community for open-source digital self-defense, privacy tools, investigative literacy, and freedom bandwidth."
     },
     {
       "type": "feature",
@@ -68,19 +63,14 @@
       "qr_label": "SCAN TO OPEN"
     },
     {
-      "type": "stats",
-      "ms": 13000
-    },
-    {
       "type": "event",
       "ms": 16000,
-      "url": "https://luma.com/xenobiology-could-life-have-evolved-via-"
-    },
-    {
-      "type": "event",
-      "ms": 16000,
-      "url": "https://luma.com/weekly-accountabili-tea-circle-reflectio-fa85",
-      "after": "https://luma.com/xenobiology-could-life-have-evolved-via-"
+      "url": "https://luma.com/out-of-the-lab-psychedelic-science-then-",
+      "title": "Out of the Lab",
+      "subtitle": "Psychedelic Science, Then and Now",
+      "venue": "2nd Floor",
+      "badge": "MEMBERS +3",
+      "tagline": "With Dr. Robin Carhart-Harris, Other Minds Lab and the UCSF CANOPY team: how citizen scientists can help shape the science of psychedelics and mental health."
     },
     {
       "type": "feature",
@@ -103,17 +93,27 @@
       "qr_label": "SCAN TO INVITE"
     },
     {
-      "type": "citizen",
-      "ms": 13000,
-      "url": "https://frontiertower.io/apply"
-    },
-    {
-      "type": "momentum",
-      "ms": 14000
-    },
-    {
       "type": "calendar",
       "ms": 22000
+    },
+    {
+      "type": "feature",
+      "id": "offices",
+      "icon": "office",
+      "accent": "gold",
+      "ms": 14000,
+      "eyebrow": "Tower feature · Private offices",
+      "title": "Rent an office",
+      "subtitle": "Furnished optional.",
+      "where": "<b>Floors 2, 3 &amp; 4</b> · 1 to 10 desks · from $1,125/mo",
+      "lede": "Glass-front offices with fast internet and unlimited conference-room booking. Furniture is $75 per desk.",
+      "points": [
+        "6-month minimum",
+        "12 months: 20% off"
+      ],
+      "foot": "<small>LIVE AVAILABILITY</small>offices.frontiertower.io",
+      "qr": "https://offices.frontiertower.io/",
+      "qr_label": "SCAN FOR AVAILABILITY"
     }
   ]
 }
